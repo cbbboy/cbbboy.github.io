@@ -22,7 +22,7 @@
   <meta name="author" content="cbb boy">
   
   <!--Open Graph Title-->
-  <meta property="og:title" content="隧道基础04-ip和掩码" />
+  <meta property="og:title" content="隧道进阶03-处理连接-本地放行+重写目的地址" />
   <!--Open Graph Description-->
   <meta property="og:description" content="自定义隧道" />
   <!--Open Graph Site Name-->
@@ -38,7 +38,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <!-- Title -->
   
-  <title>隧道基础04-ip和掩码 - 自定义隧道</title>
+  <title>隧道进阶03-处理连接-本地放行+重写目的地址 - 自定义隧道</title>
   <!-- 添加到主屏后的标题（iOS 6 新增） -->
   <meta name="apple-mobile-web-app-title" content="自定义隧道">
   <!-- 是否启用 WebApp 全屏模式 -->
@@ -216,7 +216,7 @@
         </div>
       </a>
     </div>
-    <ol class="itp-layer-toc"><li class="itp-layer-toc-item itp-layer-toc-level-1"><a class="itp-layer-toc-link" href="#ip"><span class="itp-layer-toc-text">ip</span></a></li></ol>
+    <ol class="itp-layer-toc"><li class="itp-layer-toc-item itp-layer-toc-level-1"><a class="itp-layer-toc-link" href="#%E5%A4%84%E7%90%86%E8%BF%9E%E6%8E%A5-%E6%9C%AC%E5%9C%B0%E6%94%BE%E8%A1%8C"><span class="itp-layer-toc-text">处理连接-本地放行</span></a></li></ol>
   </div>
   <div class="itp-float-layer-bg layer-bg-nodisplay" id="close_layer"></div>
 </div>
@@ -249,7 +249,7 @@
                   <img src="https://imgur.lzmun.com/picgo/after2022/tripper2colorfull.png_avatar" class="nofancy">
                 </div>
                 <div class="itp-m3-cover-title" style="opacity: 1;">
-                  隧道基础04-ip和掩码
+                  隧道进阶03-处理连接-本地放行+重写目的地址
                 </div>
                 <div class="itp-m3-cover-subtitle" style="opacity: 0.8;">
                   
@@ -258,7 +258,7 @@
 
 
 <span> / </span>
-489
+18
 <style>
   .category-link {
     color: var(--main-black);
@@ -283,30 +283,8 @@
           </div>
         </div>
         <div class="article">
-          <h1 id="ip"><a href="#ip" class="headerlink" title="ip"></a>ip</h1><p>常见ip为，123.249.80.168&#x2F;32，10.50.1.220&#x2F;8，192.168.1.1&#x2F;16</p>
-<p>那后面的32，8，16代表的是什么</p>
-<h3 id="基础01"><a href="#基础01" class="headerlink" title="基础01"></a>基础01</h3><p>123.249.80.168&#x2F;32      32表示匹配整个ip</p>
-<p>10.50.1.220&#x2F;8      8表示匹配10.*</p>
-<p>192.168.1.1&#x2F;16       16表示匹配192.168.*</p>
-<p>那如果是7呢，如果是15呢，如果是31呢？</p>
-<h3 id="基础02"><a href="#基础02" class="headerlink" title="基础02"></a>基础02</h3><p>ip最大值是多少</p>
-<p>255.255.255.255</p>
-<p>为什么是255？</p>
-<p><img src="/./assets/image-20231016165755261.png" alt="image-20231016165755261"></p>
-<p>看二进制，8个1可以是10进制的255，ip是由于32个0或1组成的</p>
-<h3 id="正式内容"><a href="#正式内容" class="headerlink" title="正式内容"></a>正式内容</h3><p>ip和掩码是如何对应的</p>
-<p>ip看成32个0或1组成</p>
-<p>10.50.1.220&#x2F;7是如何匹配的呢？</p>
-<p>7其实真实含义为匹配前7个0或者1，后面的25个可以是任意值（0或1都可以）</p>
-<p><img src="/./assets/image-20231016170436086.png" alt="image-20231016170436086"></p>
-<p>看一下7的二进制是00001010那我们第一位可以是多少呢？</p>
-<p><img src="/./assets/image-20231016170512167.png" alt="image-20231016170512167"></p>
-<p><img src="/./assets/image-20231016170517962.png" alt="image-20231016170517962"></p>
-<p>由此我们计算出10.50.1.220&#x2F;7可以匹配的ip是</p>
-<p>10.*和11.*</p>
-<p>来计算一下10.50.1.220&#x2F;6可以匹配什么ip？</p>
-<p>（答案）</p>
-<p>8.*和9.*和10.*和11.*</p>
+          <h1 id="处理连接-本地放行"><a href="#处理连接-本地放行" class="headerlink" title="处理连接-本地放行"></a>处理连接-本地放行</h1><p>基本流程可以理解为</p>
+<p><img src="/./assets/image-20231019200215613.png" alt="image-20231019200215613"></p>
 
         </div>
         <div class="itp-m3-post-info_area">
@@ -330,7 +308,7 @@
       
 
 <div id="column-toc-m3" class="noprn column-toc-m3 itp-toc-m3-sidetop">
-  <ol class="itp-toc"><li class="itp-toc-item itp-toc-level-1"><a class="itp-toc-link" href="#ip"><span class="itp-toc-text">ip</span></a><ol class="itp-toc-child"><li class="itp-toc-item itp-toc-level-3"><a class="itp-toc-link" href="#%E5%9F%BA%E7%A1%8001"><span class="itp-toc-text">基础01</span></a></li><li class="itp-toc-item itp-toc-level-3"><a class="itp-toc-link" href="#%E5%9F%BA%E7%A1%8002"><span class="itp-toc-text">基础02</span></a></li><li class="itp-toc-item itp-toc-level-3"><a class="itp-toc-link" href="#%E6%AD%A3%E5%BC%8F%E5%86%85%E5%AE%B9"><span class="itp-toc-text">正式内容</span></a></li></ol></li></ol></li></ol>
+  <ol class="itp-toc"><li class="itp-toc-item itp-toc-level-1"><a class="itp-toc-link" href="#%E5%A4%84%E7%90%86%E8%BF%9E%E6%8E%A5-%E6%9C%AC%E5%9C%B0%E6%94%BE%E8%A1%8C"><span class="itp-toc-text">处理连接-本地放行</span></a></li></ol>
 </div>
 
       
@@ -346,7 +324,7 @@
           <div class="itp-share-avatar">
             <img src="https://imgur.lzmun.com/picgo/after2022/tripper2colorfull.png_avatar" class="nofancy">
           </div>
-          <div class="itp-share-title">隧道基础04-ip和掩码</div>
+          <div class="itp-share-title">隧道进阶03-处理连接-本地放行+重写目的地址</div>
         </div>
       </div>
     </div>

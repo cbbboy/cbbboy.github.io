@@ -22,7 +22,7 @@
   <meta name="author" content="cbb boy">
   
   <!--Open Graph Title-->
-  <meta property="og:title" content="点对面隧道协议设计方案" />
+  <meta property="og:title" content="about me" />
   <!--Open Graph Description-->
   <meta property="og:description" content="自定义隧道" />
   <!--Open Graph Site Name-->
@@ -38,7 +38,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <!-- Title -->
   
-  <title>点对面隧道协议设计方案 - 自定义隧道</title>
+  <title>about me - 自定义隧道</title>
   <!-- 添加到主屏后的标题（iOS 6 新增） -->
   <meta name="apple-mobile-web-app-title" content="自定义隧道">
   <!-- 是否启用 WebApp 全屏模式 -->
@@ -137,8 +137,6 @@
   
   
   
-  
-  
   <!-- Google Search Advanced
   https://developers.google.com/search/docs/advanced/structured-data/search-gallery
   -->
@@ -191,22 +189,33 @@
     
   </a>
   
-  <!--只在 **文章** 页面显示-->
-  <a class="itp-float-bar-item rounded" onclick="scrollto(comment)" title="comment">
+  <!--只在 **非文章** 页面显示-->
+  
+  <a class="itp-float-bar-item rounded" href="/archives/" title="归档">
     
-    <iconpark-icon class="navicon" name="comment"></iconpark-icon>
-    
-  </a>
-  <a class="itp-float-bar-item rounded" id="open_toc" onclick="OpenToc()" title="Table of contents">
-    
-    <iconpark-icon class="navicon" name="list"></iconpark-icon>
+    <iconpark-icon class="navicon" name="inbox"></iconpark-icon>
     
   </a>
-  <a class="itp-float-bar-item rounded" href="javascript:scroll(0,0)" title="to top">
+  
+  <a class="itp-float-bar-item rounded" href="/gallery/" title="影像">
     
-    <iconpark-icon class="navicon" name="top"></iconpark-icon>
+    <iconpark-icon class="navicon" name="gallery"></iconpark-icon>
     
   </a>
+  
+  <a class="itp-float-bar-item rounded" href="/about/" title="关于">
+    
+    <iconpark-icon class="navicon" name="person"></iconpark-icon>
+    
+  </a>
+  
+  <a class="itp-float-bar-item rounded" href="/links/" title="链接">
+    
+    <iconpark-icon class="navicon" name="people"></iconpark-icon>
+    
+  </a>
+  
+  
   
 
   <div class="itp-float-layer itp-toc-layer">
@@ -216,7 +225,7 @@
         </div>
       </a>
     </div>
-    <ol class="itp-layer-toc"><li class="itp-layer-toc-item itp-layer-toc-level-1"><a class="itp-layer-toc-link" href="#%E7%82%B9%E5%AF%B9%E9%9D%A2%E9%9A%A7%E9%81%93%E5%8D%8F%E8%AE%AE%E8%AE%BE%E8%AE%A1%E6%96%B9%E6%A1%88"><span class="itp-layer-toc-text">点对面隧道协议设计方案</span></a></li></ol>
+    
   </div>
   <div class="itp-float-layer-bg layer-bg-nodisplay" id="close_layer"></div>
 </div>
@@ -249,33 +258,11 @@
                   <img src="https://imgur.lzmun.com/picgo/after2022/tripper2colorfull.png_avatar" class="nofancy">
                 </div>
                 <div class="itp-m3-cover-title" style="opacity: 1;">
-                  点对面隧道协议设计方案
+                  about me
                 </div>
                 <div class="itp-m3-cover-subtitle" style="opacity: 0.8;">
                   
-2023-10-12
-<span> / </span>
-
-
-<span> / </span>
-318
-<style>
-  .category-link {
-    color: var(--main-black);
-  }
-
-  @media print {
-    .itp-cover-subtitle a {
-      color: var(--main-black) !important;
-    }
-  }
-
-  @media screen {
-    .itp-cover-subtitle a {
-      color: #fff !important;
-    }
-  }
-</style>
+自定义隧道
 
                 </div>
               </div>
@@ -283,28 +270,12 @@
           </div>
         </div>
         <div class="article">
-          <h1 id="点对面隧道协议设计方案"><a href="#点对面隧道协议设计方案" class="headerlink" title="点对面隧道协议设计方案"></a>点对面隧道协议设计方案</h1><p>我们拿到net.conn了之后，我们即可将流量封装进入隧道</p>
-<p>那我们遇到最大问题肯定是：</p>
-<h4 id="隧道协议的设计"><a href="#隧道协议的设计" class="headerlink" title="隧道协议的设计"></a>隧道协议的设计</h4><p>我们需要先考虑-&gt;隧道服务端需要什么？</p>
-<ol>
-<li>目的ip</li>
-<li>目的端口</li>
-<li>协议</li>
-<li>区分相同目的ip、相同端口、相同协议的不同连接</li>
-<li>流量类型</li>
-</ol>
-<p>1、2、3就不多讲了</p>
-<p>4：是客户端可能会同时和10.50.1.21:8642建立多条tcp连接，那我们服务端也需要多条和真实业务的连接，那我们只有目的ip，目的端口，协议，无法区分多个tcp连接，那我们就还需要一个东西进行区分</p>
-<p>5：为了区分比如tcp新建立连接、tcp断开、tcp数据传递、服务端和客户端双向通信发送的信息、传递自己的令牌等设计的在真实业务里面，我们可以把协议和流量类型合并为同一个字段 </p>
+          <p>隧道小组组长！！！</p>
 
         </div>
         <div class="itp-m3-post-info_area">
           <div class="info_area-category">
             
-            
-            <div class="itp-m3-chip-normal-list">
-              <a class="tag-none-link" href="/tags/%E9%9A%A7%E9%81%93/" rel="tag">隧道</a>
-            </div>
             
           </div>
           <div class="info_area-copyright">
@@ -317,10 +288,6 @@
     <div class="right-area">
       
       
-
-<div id="column-toc-m3" class="noprn column-toc-m3 itp-toc-m3-sidetop">
-  <ol class="itp-toc"><li class="itp-toc-item itp-toc-level-1"><a class="itp-toc-link" href="#%E7%82%B9%E5%AF%B9%E9%9D%A2%E9%9A%A7%E9%81%93%E5%8D%8F%E8%AE%AE%E8%AE%BE%E8%AE%A1%E6%96%B9%E6%A1%88"><span class="itp-toc-text">点对面隧道协议设计方案</span></a></li></ol>
-</div>
 
       
     </div>
@@ -335,7 +302,7 @@
           <div class="itp-share-avatar">
             <img src="https://imgur.lzmun.com/picgo/after2022/tripper2colorfull.png_avatar" class="nofancy">
           </div>
-          <div class="itp-share-title">点对面隧道协议设计方案</div>
+          <div class="itp-share-title">about me</div>
         </div>
       </div>
     </div>

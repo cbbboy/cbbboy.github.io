@@ -6,7 +6,7 @@
   <link href="https://cbbboy.github.io/atom.xml" rel="self"/>
   
   <link href="https://cbbboy.github.io/"/>
-  <updated>2023-10-20T08:17:00.319Z</updated>
+  <updated>2023-10-20T11:15:49.902Z</updated>
   <id>https://cbbboy.github.io/</id>
   
   <author>
@@ -17,11 +17,11 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>隧道进阶04-点对面隧道协议设计方案</title>
+    <title>隧道进阶05-点对面隧道协议设计方案</title>
     <link href="https://cbbboy.github.io/zh-CN/%E9%9A%A7%E9%81%93/%E9%9A%A7%E9%81%93%E8%BF%9B%E9%98%B605-%E7%82%B9%E5%AF%B9%E9%9D%A2%E9%9A%A7%E9%81%93%E5%8D%8F%E8%AE%AE%E8%AE%BE%E8%AE%A1%E6%96%B9%E6%A1%88/"/>
     <id>https://cbbboy.github.io/zh-CN/%E9%9A%A7%E9%81%93/%E9%9A%A7%E9%81%93%E8%BF%9B%E9%98%B605-%E7%82%B9%E5%AF%B9%E9%9D%A2%E9%9A%A7%E9%81%93%E5%8D%8F%E8%AE%AE%E8%AE%BE%E8%AE%A1%E6%96%B9%E6%A1%88/</id>
     <published>2023-10-04T02:08:59.000Z</published>
-    <updated>2023-10-20T08:17:00.319Z</updated>
+    <updated>2023-10-20T11:15:49.902Z</updated>
     
     <content type="html"><![CDATA[<h1 id="点对面隧道协议设计方案"><a href="#点对面隧道协议设计方案" class="headerlink" title="点对面隧道协议设计方案"></a>点对面隧道协议设计方案</h1><p>我们拿到net.conn了之后，我们即可将流量封装进入隧道</p><p>那我们遇到最大问题肯定是：</p><h4 id="隧道协议的设计"><a href="#隧道协议的设计" class="headerlink" title="隧道协议的设计"></a>隧道协议的设计</h4><p>我们需要先考虑-&gt;隧道服务端需要什么？</p><ol><li>目的ip</li><li>目的端口</li><li>协议</li><li>区分相同目的ip、相同端口、相同协议的不同连接</li><li>流量类型</li></ol><h4 id="解释"><a href="#解释" class="headerlink" title="解释"></a>解释</h4><p>1、2、3就不多讲了</p><p>4：是客户端可能会同时和10.50.1.21:8642建立多条tcp连接，那我们服务端也需要多条和真实业务的连接，那我们只有目的ip，目的端口，协议，无法区分多个tcp连接，那我们就还需要一个东西进行区分</p><p>5：为了区分比如tcp新建立连接、tcp断开、tcp数据传递、服务端和客户端双向通信发送的信息、传递自己的令牌等。我们也可以把协议和流量类型合并为同一个字段 </p>]]></content>
     
@@ -120,7 +120,7 @@
     <link href="https://cbbboy.github.io/zh-CN/%E9%9A%A7%E9%81%93/%E9%9A%A7%E9%81%93%E8%BF%9B%E9%98%B601-%E7%82%B9%E5%AF%B9%E9%9D%A2%E9%9A%A7%E9%81%93%E7%9B%AE%E6%A0%87/"/>
     <id>https://cbbboy.github.io/zh-CN/%E9%9A%A7%E9%81%93/%E9%9A%A7%E9%81%93%E8%BF%9B%E9%98%B601-%E7%82%B9%E5%AF%B9%E9%9D%A2%E9%9A%A7%E9%81%93%E7%9B%AE%E6%A0%87/</id>
     <published>2023-09-17T02:08:59.000Z</published>
-    <updated>2023-10-20T05:35:25.750Z</updated>
+    <updated>2023-10-20T11:15:58.150Z</updated>
     
     <content type="html"><![CDATA[<h1 id="点对面隧道"><a href="#点对面隧道" class="headerlink" title="点对面隧道"></a>点对面隧道</h1><p>（学习本章之前强烈建议先学习隧道基础02-点对点隧道和隧道基础03-自定义协议）</p><h4 id="点对面隧道基本流程图"><a href="#点对面隧道基本流程图" class="headerlink" title="点对面隧道基本流程图"></a>点对面隧道基本流程图</h4><p><img src="/./assets/image-20231019090857163.png" alt="image-20231019090857163"></p><h4 id="那我们都需要做什么能够达到效果？"><a href="#那我们都需要做什么能够达到效果？" class="headerlink" title="那我们都需要做什么能够达到效果？"></a>那我们都需要做什么能够达到效果？</h4><ol><li><p>启动虚拟网卡</p></li><li><p>启动包gvisor.dev&#x2F;gvisor中用户态处理底层数据包，将数据包转化成我们好操作的net.conn对象</p></li><li><p>拿到对象后根据对象中的 localAddr 和remoteAddr判断是否经过隧道（可能只是想要代理10.50.1.21:22端口，其他端口本地放行，但是路由是不区分端口的，所以需要在代码里面处理本地放行的逻辑）</p></li><li><p>根据自己自定义协议封装进隧道里面发送到服务端</p></li><li><p>服务端根据隧道协议判断数据类型并处理</p></li></ol>]]></content>
     

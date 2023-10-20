@@ -6,7 +6,7 @@
   <link href="https://cbbboy.github.io/atom.xml" rel="self"/>
   
   <link href="https://cbbboy.github.io/"/>
-  <updated>2023-10-20T02:23:49.168Z</updated>
+  <updated>2023-10-20T02:27:21.806Z</updated>
   <id>https://cbbboy.github.io/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://cbbboy.github.io/zh-CN/%E9%9A%A7%E9%81%93/%E9%9A%A7%E9%81%93%E8%BF%9B%E9%98%B604-%E7%82%B9%E5%AF%B9%E9%9D%A2%E9%9A%A7%E9%81%93%E5%8D%8F%E8%AE%AE%E8%AE%BE%E8%AE%A1%E6%96%B9%E6%A1%88/"/>
     <id>https://cbbboy.github.io/zh-CN/%E9%9A%A7%E9%81%93/%E9%9A%A7%E9%81%93%E8%BF%9B%E9%98%B604-%E7%82%B9%E5%AF%B9%E9%9D%A2%E9%9A%A7%E9%81%93%E5%8D%8F%E8%AE%AE%E8%AE%BE%E8%AE%A1%E6%96%B9%E6%A1%88/</id>
     <published>2023-10-04T02:08:59.000Z</published>
-    <updated>2023-10-20T02:23:49.168Z</updated>
+    <updated>2023-10-20T02:27:21.806Z</updated>
     
     <content type="html"><![CDATA[<h1 id="点对面隧道协议设计方案"><a href="#点对面隧道协议设计方案" class="headerlink" title="点对面隧道协议设计方案"></a>点对面隧道协议设计方案</h1><p>我们拿到net.conn了之后，我们即可将流量封装进入隧道</p><p>那我们遇到最大问题肯定是：</p><h4 id="隧道协议的设计"><a href="#隧道协议的设计" class="headerlink" title="隧道协议的设计"></a>隧道协议的设计</h4><p>我们需要先考虑-&gt;隧道服务端需要什么？</p><ol><li>目的ip</li><li>目的端口</li><li>协议</li><li>区分相同目的ip、相同端口、相同协议的不同连接</li><li>流量类型</li></ol><p>1、2、3就不多讲了</p><p>4：是客户端可能会同时和10.50.1.21:8642建立多条tcp连接，那我们服务端也需要多条和真实业务的连接，那我们只有目的ip，目的端口，协议，无法区分多个tcp连接，那我们就还需要一个东西进行区分</p><p>5：为了区分比如tcp新建立连接、tcp断开、tcp数据传递、服务端和客户端双向通信发送的信息、传递自己的令牌等。我们也可以把协议和流量类型合并为同一个字段 </p>]]></content>
     
@@ -153,29 +153,6 @@
   </entry>
   
   <entry>
-    <title>隧道基础01-标准协议</title>
-    <link href="https://cbbboy.github.io/zh-CN/%E9%9A%A7%E9%81%93/%E9%9A%A7%E9%81%93%E5%9F%BA%E7%A1%8001-%E6%A0%87%E5%87%86%E5%8D%8F%E8%AE%AE/"/>
-    <id>https://cbbboy.github.io/zh-CN/%E9%9A%A7%E9%81%93/%E9%9A%A7%E9%81%93%E5%9F%BA%E7%A1%8001-%E6%A0%87%E5%87%86%E5%8D%8F%E8%AE%AE/</id>
-    <published>2023-09-07T02:08:59.000Z</published>
-    <updated>2023-10-20T02:22:21.763Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="标准协议"><a href="#标准协议" class="headerlink" title="标准协议"></a>标准协议</h1><p>tcp、udp、ssh、http、vmess、vless、tls、dns、grpc他们的区别与联系</p><h4 id="这个是wireshark的抓包界面，那分别代表什么意思呢"><a href="#这个是wireshark的抓包界面，那分别代表什么意思呢" class="headerlink" title="这个是wireshark的抓包界面，那分别代表什么意思呢"></a>这个是wireshark的抓包界面，那分别代表什么意思呢</h4><p><img src="/./assets/image-20231018161938045.png" alt="image-20231018161938045"></p><ol><li>1 代表的是所有数据包，默认按时间排序当1选中数据包后 2、3会显示详细信息</li><li>2代表的是wireshar将数据包解析后人为能读懂的内容，像圈中的Protocol：TCP不是数据包中的内容，是wireshark根据数据包3中圈出位置的字符翻译出他代表的含义</li><li>3代表的是原始数据包，即网络上传输的内容，一般我们自己是无法读懂的，一般都看2中的内容</li></ol><h4 id="这个是一个tls协议的流量，他同时也叫tcp，为什么会这样呢？"><a href="#这个是一个tls协议的流量，他同时也叫tcp，为什么会这样呢？" class="headerlink" title="这个是一个tls协议的流量，他同时也叫tcp，为什么会这样呢？"></a>这个是一个tls协议的流量，他同时也叫tcp，为什么会这样呢？</h4><p><img src="/./assets/image-20231009150057338.png" alt="image-20231009150057338"></p><p>看这个wireshark抓包的protocol，这个06代表的即是tcp协议</p><h4 id="那为什么又会叫tls协议呢？"><a href="#那为什么又会叫tls协议呢？" class="headerlink" title="那为什么又会叫tls协议呢？"></a>那为什么又会叫tls协议呢？</h4><p>tcp上承载的数据内容是tls的流量，所以叫做tls</p><p><img src="/./assets/image-20231009150502621.png" alt="image-20231009150502621"></p><p>这个时候我们就能很清晰的认识到</p><p>协议分成tcp，udp，icmp</p><p>tcp会根据承载的数据分成http、tls、ssh等</p><p>udp会有dns、quic、arp等</p><h4 id="那除了tcp是6、udp是多少呢？除了tcp和udp还会有其他什么协议？"><a href="#那除了tcp是6、udp是多少呢？除了tcp和udp还会有其他什么协议？" class="headerlink" title="那除了tcp是6、udp是多少呢？除了tcp和udp还会有其他什么协议？"></a>那除了tcp是6、udp是多少呢？除了tcp和udp还会有其他什么协议？</h4><p>协议列表官方文档</p><p><a href="https://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml">https://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml</a></p><p><img src="/./assets/image-20231018161050135.png" alt="image-20231018161050135"></p><p>有很多，不过目前只有tcp、udp、icmp允许在公网上传输，内网允许部分协议</p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;h1 id=&quot;标准协议&quot;&gt;&lt;a href=&quot;#标准协议&quot; class=&quot;headerlink&quot; title=&quot;标准协议&quot;&gt;&lt;/a&gt;标准协议&lt;/h1&gt;&lt;p&gt;tcp、udp、ssh、http、vmess、vless、tls、dns、grpc他们的区别与联系&lt;/p&gt;
-&lt;h4 id=&quot;</summary>
-      
-    
-    
-    
-    
-    <category term="隧道" scheme="https://cbbboy.github.io/tags/%E9%9A%A7%E9%81%93/"/>
-    
-  </entry>
-  
-  <entry>
     <title>隧道基础02-点对点隧道</title>
     <link href="https://cbbboy.github.io/zh-CN/%E9%9A%A7%E9%81%93/%E9%9A%A7%E9%81%93%E5%9F%BA%E7%A1%8002-%E7%82%B9%E5%AF%B9%E7%82%B9%E9%9A%A7%E9%81%93/"/>
     <id>https://cbbboy.github.io/zh-CN/%E9%9A%A7%E9%81%93/%E9%9A%A7%E9%81%93%E5%9F%BA%E7%A1%8002-%E7%82%B9%E5%AF%B9%E7%82%B9%E9%9A%A7%E9%81%93/</id>
@@ -191,6 +168,31 @@
       
     
     
+    
+    
+    <category term="隧道" scheme="https://cbbboy.github.io/tags/%E9%9A%A7%E9%81%93/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>隧道基础01-标准协议</title>
+    <link href="https://cbbboy.github.io/zh-CN/%E9%9A%A7%E9%81%93/%E9%9A%A7%E9%81%93%E5%9F%BA%E7%A1%8001-%E6%A0%87%E5%87%86%E5%8D%8F%E8%AE%AE/"/>
+    <id>https://cbbboy.github.io/zh-CN/%E9%9A%A7%E9%81%93/%E9%9A%A7%E9%81%93%E5%9F%BA%E7%A1%8001-%E6%A0%87%E5%87%86%E5%8D%8F%E8%AE%AE/</id>
+    <published>2023-09-02T02:08:59.000Z</published>
+    <updated>2023-10-20T04:41:04.662Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="标准协议"><a href="#标准协议" class="headerlink" title="标准协议"></a>标准协议</h1><p>tcp、udp、ssh、http、vmess、vless、tls、dns、grpc他们的区别与联系</p><h4 id="这个是wireshark的抓包界面，那分别代表什么意思呢"><a href="#这个是wireshark的抓包界面，那分别代表什么意思呢" class="headerlink" title="这个是wireshark的抓包界面，那分别代表什么意思呢"></a>这个是wireshark的抓包界面，那分别代表什么意思呢</h4><p><img src="/./assets/image-20231018161938045.png" alt="image-20231018161938045"></p><ol><li>1 代表的是所有数据包，默认按时间排序当1选中数据包后 2、3会显示详细信息</li><li>2代表的是wireshar将数据包解析后人为能读懂的内容，像圈中的Protocol：TCP不是数据包中的内容，是wireshark根据数据包3中圈出位置的字符翻译出他代表的含义</li><li>3代表的是原始数据包，即网络上传输的内容，一般我们自己是无法读懂的，一般都看2中的内容</li></ol><h4 id="这个是一个tls协议的流量，他同时也叫tcp，为什么会这样呢？"><a href="#这个是一个tls协议的流量，他同时也叫tcp，为什么会这样呢？" class="headerlink" title="这个是一个tls协议的流量，他同时也叫tcp，为什么会这样呢？"></a>这个是一个tls协议的流量，他同时也叫tcp，为什么会这样呢？</h4><p><img src="/./assets/image-20231009150057338.png" alt="image-20231009150057338"></p><p>看这个wireshark抓包的protocol，这个06代表的即是tcp协议</p><h4 id="那为什么又会叫tls协议呢？"><a href="#那为什么又会叫tls协议呢？" class="headerlink" title="那为什么又会叫tls协议呢？"></a>那为什么又会叫tls协议呢？</h4><p>tcp上承载的数据内容是tls的流量，所以叫做tls</p><p><img src="/./assets/image-20231009150502621.png" alt="image-20231009150502621"></p><p>这个时候我们就能很清晰的认识到</p><p>协议分成tcp，udp，icmp</p><p>tcp会根据承载的数据分成http、tls、ssh等</p><p>udp会有dns、quic、arp等</p><h4 id="那除了tcp是6、udp是多少呢？除了tcp和udp还会有其他什么协议？"><a href="#那除了tcp是6、udp是多少呢？除了tcp和udp还会有其他什么协议？" class="headerlink" title="那除了tcp是6、udp是多少呢？除了tcp和udp还会有其他什么协议？"></a>那除了tcp是6、udp是多少呢？除了tcp和udp还会有其他什么协议？</h4><p>协议列表官方文档</p><p><a href="https://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml">https://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml</a></p><p><img src="/./assets/image-20231018161050135.png" alt="image-20231018161050135"></p><p>有很多，不过目前只有tcp、udp、icmp允许在公网上传输，内网允许部分协议</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;标准协议&quot;&gt;&lt;a href=&quot;#标准协议&quot; class=&quot;headerlink&quot; title=&quot;标准协议&quot;&gt;&lt;/a&gt;标准协议&lt;/h1&gt;&lt;p&gt;tcp、udp、ssh、http、vmess、vless、tls、dns、grpc他们的区别与联系&lt;/p&gt;
+&lt;h4 id=&quot;</summary>
+      
+    
+    
+    
+    <category term="隧道" scheme="https://cbbboy.github.io/categories/%E9%9A%A7%E9%81%93/"/>
     
     
     <category term="隧道" scheme="https://cbbboy.github.io/tags/%E9%9A%A7%E9%81%93/"/>

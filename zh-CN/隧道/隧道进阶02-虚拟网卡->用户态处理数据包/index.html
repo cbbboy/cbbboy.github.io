@@ -1,289 +1,346 @@
-<!-- @format -->
-
-
-
 <!DOCTYPE html>
-<html lang="zh-CN">
-<!-- Head tag -->
+<html lang=zh>
 <head>
   <meta charset="utf-8">
+  
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <!--360 使用 Google Chrome Frame-->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
   <meta name="renderer" content="webkit">
-  <!--百度禁止转码-->
-  <meta http-equiv="Cache-Control" content="no-siteapp">
-  <!--Description-->
-  
-  <meta name="description" content="自定义隧道">
-  
-  <meta name="google-site-verification" content="J4gssmXGNI9-DfJ9w52mL5KFPlRCYvySveEN0RJFZHU" />
-  <!--Author-->
-  
-  <meta name="author" content="cbb boy">
-  
-  <!--Open Graph Title-->
-  <meta property="og:title" content="隧道进阶02-虚拟网卡-&gt;用户态处理数据包（选学）" />
-  <!--Open Graph Description-->
-  <meta property="og:description" content="自定义隧道" />
-  <!--Open Graph Site Name-->
-  <meta property="og:site_name" content="自定义隧道" />
-  <!--Type page-->
-  
-  <meta property="og:type" content="article" />
-  
-  <!--Page Cover-->
-  
-  <meta property="og:image" content="https://imgur.lzmun.com/picgo/after2022/6DD1FBC3-AD8A-4340-842D-6ACF531F8291_1_105_c.jpeg_itp" />
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <!-- Title -->
-  
-  <title>隧道进阶02-虚拟网卡-&gt;用户态处理数据包（选学） - 自定义隧道</title>
-  <!-- 添加到主屏后的标题（iOS 6 新增） -->
-  <meta name="apple-mobile-web-app-title" content="自定义隧道">
-  <!-- 是否启用 WebApp 全屏模式 -->
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <link rel="apple-touch-startup-image" href="/assets/ splash-assets.png" media="(max-device-width: 700px)">
-  <!-- 禁止数字识自动别为电话号码 -->
-  <meta name="format-detection" content="telephone=no" />
-  <link rel="shortcut icon" href="https://imgur.lzmun.com/picgo/after2022/tripper2whitefull.png_avatar">
-  <!--Apple iOS Safari ICON-->
-  <link rel="apple-touch-icon" sizes="57x57" href="https://imgur.lzmun.com/picgo/after2022/tripper2color.png_iPhone" />
-  <link rel="apple-touch-icon" sizes="72x72" href="https://imgur.lzmun.com/picgo/after2022/tripper2color.png_RetinaiPad" />
-  <link rel="apple-touch-icon" sizes="114x114" href="https://imgur.lzmun.com/picgo/after2022/tripper2color.png_iPhoneHD" />
-  <link rel="apple-touch-icon" sizes="144x144" href="https://imgur.lzmun.com/picgo/after2022/tripper2color.png_RetinaiPad" />
-  <!-- 添加 RSS 订阅 -->
-  <link rel="alternate" type="application/rss+xml" title="自定义隧道" href="/atom.xml" />
-  <!-- uc强制竖屏 -->
-  <meta name="screen-orientation" content="portrait">
-  <!-- QQ强制竖屏 -->
-  <meta name="x5-orientation" content="portrait">
-  <!-- UC强制全屏 -->
-  <meta name="full-screen" content="yes">
-  <!-- QQ强制全屏 -->
-  <meta name="x5-fullscreen" content="true">
-  <!-- UC应用模式 -->
-  <meta name="browsermode" content="application">
-  <!-- QQ应用模式 -->
-  <meta name="x5-page-mode" content="app">
-  <!-- https://material.io/resources/icons/?style=outline -->
-  
-  <script src="https://lf1-cdn-tos.bytegoofy.com/obj/iconpark/icons_20213_18.4a5f87dae8e6f9e336b9ad6fa00f8e8f.js"></script>
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
   
   
-<style>
-  .itp-gallery-title,
-  .itp-gallery-subtitle,
-  .itp-post-title,
-  .itp-post-entry-title,
-  .itp-post-entry-subtitle,
-  .itp-mag-logo,
-  .itp-index-title,
-  .itp-post-entry-moment,
-  .itp-header-actions-menu {
-    font-family: ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Noto Sans,Ubuntu,Cantarell,Helvetica Neue,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Noto Sans,Ubuntu,Cantarell,Helvetica Neue,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;
-  }
-
-  .itp-header-title,
-  .itp-m3-post-entry-info .title,
-  .itp-header-actions,
-  .itp-cover-title,
-  .itp-cover-subtitle,
-  .itp-post-subtitle,
-  .itp-post-entry-title,
-  .itp-m3-cover-subtitle,
-  .itp-m3-cover-title,
-  .itp-gallery-info .title,
-  .footer-info {
-    font-family: ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Noto Sans,Ubuntu,Cantarell,Helvetica Neue,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Noto Sans,Ubuntu,Cantarell,Helvetica Neue,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;
-  }
-
-  .article,
-  .itp-post-entry-excerpt {
-    font-family: 'SF UI Display', '.PingFang SC', 'PingFang SC', 'Neue Haas Grotesk Text Pro', 'Arial Nova', 'Segoe UI', 'Microsoft YaHei', 'Microsoft JhengHei', 'Helvetica Neue', 'Source Han Sans SC', 'Noto Sans CJK SC', 'Source Han Sans CN', 'Noto Sans SC', 'Source Han Sans TC', 'Noto Sans CJK TC', 'Helvetica', 'Hiragino Sans GB', sans-serif;
-  }
-</style>
-
-  <!-- Custom CSS/Sass -->
+  <title>隧道进阶02-虚拟网卡-&gt;用户态处理数据包（选学） | cbbboy blog</title>
+  <meta name="description" content="虚拟网卡-&gt;用户态处理数据包（选学） 1234567891011[0 0 0 2 69 0 0 64 0 0 64 0 64 6 187 109 114 2 2 2 10 50 1 21 213 33 33 194 64 111 123 227 0 0 0 0 176 194 255 255 98 116 0 0 2 4 5 180 1 3 3 6 1 1 8 10 164 164 252">
+<meta property="og:type" content="article">
+<meta property="og:title" content="隧道进阶02-虚拟网卡-&gt;用户态处理数据包（选学）">
+<meta property="og:url" content="https://cbbboy.github.io/zh-CN/%E9%9A%A7%E9%81%93/%E9%9A%A7%E9%81%93%E8%BF%9B%E9%98%B602-%E8%99%9A%E6%8B%9F%E7%BD%91%E5%8D%A1-%3E%E7%94%A8%E6%88%B7%E6%80%81%E5%A4%84%E7%90%86%E6%95%B0%E6%8D%AE%E5%8C%85/index.html">
+<meta property="og:site_name" content="自定义隧道">
+<meta property="og:description" content="虚拟网卡-&gt;用户态处理数据包（选学） 1234567891011[0 0 0 2 69 0 0 64 0 0 64 0 64 6 187 109 114 2 2 2 10 50 1 21 213 33 33 194 64 111 123 227 0 0 0 0 176 194 255 255 98 116 0 0 2 4 5 180 1 3 3 6 1 1 8 10 164 164 252">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cbbboy.github.io/assets/image-20231019110018175.png">
+<meta property="og:image" content="https://cbbboy.github.io/assets/image-20231019110103861.png">
+<meta property="og:image" content="https://cbbboy.github.io/assets/image-20231019110232757.png">
+<meta property="og:image" content="https://cbbboy.github.io/assets/image-20231019110937382.png">
+<meta property="article:published_time" content="2023-10-02T02:08:59.000Z">
+<meta property="article:modified_time" content="2023-10-20T02:23:44.075Z">
+<meta property="article:author" content="cbb boy">
+<meta property="article:tag" content="隧道">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cbbboy.github.io/assets/image-20231019110018175.png">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://cbbboy.github.io/zh-CN/%E9%9A%A7%E9%81%93/%E9%9A%A7%E9%81%93%E8%BF%9B%E9%98%B602-%E8%99%9A%E6%8B%9F%E7%BD%91%E5%8D%A1-%3E%E7%94%A8%E6%88%B7%E6%80%81%E5%A4%84%E7%90%86%E6%95%B0%E6%8D%AE%E5%8C%85/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="自定义隧道" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
   
 <link rel="stylesheet" href="/css/style.css">
 
-  <!--样式切换-->
-  
-  
-<link rel="stylesheet" href="/css/material3.css">
-
   
   
   
   
-  <!--highlight.js CSS-->
-  
-  
-<link rel="stylesheet" href="/css/highlight/github.css">
-
-  
-  
-  <!-- jquery -->
-  
-  <script src="/js/jquery.min.js"></script>
-  
-  <!--Comment-->
-  
-  <!--Vercel Audiences Analytics-->
-  
-  <!--umami analytics-->
-  
-  
-  
-  
-  
-  
-  <!-- Google Search Advanced
-  https://developers.google.com/search/docs/advanced/structured-data/search-gallery
-  -->
-  
-  <!--<script src="https://cdn.tailwindcss.com"></script>
-<script>
-  tailwind.config = {
-    theme: {
-      spacing: {
-        '1': '8px',
-        '2': '12px',
-        '3': '16px',
-        '4': '24px',
-        '5': '32px',
-        '6': '48px',
-      },
-      container: {
-        center: true,
-      },
-      extend: {
-        colors: {
-          tblack: '#222831',
-        },
-        boxShadow: {
-          'itp': '1px 10px 30px 0 rgb(0 0 0 / 10%)',
-        }
-      }
-    }
-  }
-</script>-->
-
-<link rel="stylesheet" href="/css/tailwind.css">
-
 <meta name="generator" content="Hexo 6.3.0"></head>
 
 
-<!--Other Pages-->
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://cbbboy.github.io/" target="_blank">
+          <img class="img-circle img-rotate" src="/favicon.png" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">cbbboy</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">吃不饱</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> 杭州</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
 
-
-<body>
-  <!-- Nav -->
-  
-
-
-<div class="itp-float-bar">
-  <!--所有页面都显示-->
-  <a class="itp-float-bar-item rounded" href="/" title="自定义隧道">
-    
-    <iconpark-icon class="navicon" name="home"></iconpark-icon>
-    
-  </a>
-  
-  <!--只在 **文章** 页面显示-->
-  <a class="itp-float-bar-item rounded" onclick="scrollto(comment)" title="comment">
-    
-    <iconpark-icon class="navicon" name="comment"></iconpark-icon>
-    
-  </a>
-  <a class="itp-float-bar-item rounded" id="open_toc" onclick="OpenToc()" title="Table of contents">
-    
-    <iconpark-icon class="navicon" name="list"></iconpark-icon>
-    
-  </a>
-  <a class="itp-float-bar-item rounded" href="javascript:scroll(0,0)" title="to top">
-    
-    <iconpark-icon class="navicon" name="top"></iconpark-icon>
-    
-  </a>
-  
-
-  <div class="itp-float-layer itp-toc-layer">
-    <div class="clost-btn" style="display: flex;">
-      <a class="itp-float-layer-close-btn" id="close_btn">
-        <div class="close_btn_red">
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
         </div>
-      </a>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
     </div>
-    <ol class="itp-layer-toc"><li class="itp-layer-toc-item itp-layer-toc-level-1"><a class="itp-layer-toc-link" href="#%E8%99%9A%E6%8B%9F%E7%BD%91%E5%8D%A1-%E7%94%A8%E6%88%B7%E6%80%81%E5%A4%84%E7%90%86%E6%95%B0%E6%8D%AE%E5%8C%85%EF%BC%88%E9%80%89%E5%AD%A6%EF%BC%89"><span class="itp-layer-toc-text">虚拟网卡-&gt;用户态处理数据包（选学）</span></a></li><li class="itp-layer-toc-item itp-layer-toc-level-1"><a class="itp-layer-toc-link" href="#%E6%80%9D%E8%80%83%E9%A2%98"><span class="itp-layer-toc-text">思考题</span></a></li></ol>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
   </div>
-  <div class="itp-float-layer-bg layer-bg-nodisplay" id="close_layer"></div>
 </div>
 
 
-<style>
-  .navicon {
-    font-size: 18px;
-    padding-top: 18px;
-    color: var(--main-black);
-  }
-</style>
-  <!-- Main Content -->
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="/false" target="_blank" title="Link_tooltip" data-toggle=tooltip data-placement=top><i class="icon icon-link_tooltip"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>分享学习心得</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9A%A7%E9%81%93/">隧道</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%A7%E9%81%93/" rel="tag">隧道</a><span class="tag-list-count">8</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/%E9%9A%A7%E9%81%93/" style="font-size: 13px;">隧道</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/10/">十月 2023</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/09/">九月 2023</a><span class="archive-list-count">5</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/zh-CN/%E9%9A%A7%E9%81%93/%E9%9A%A7%E9%81%93%E8%BF%9B%E9%98%B604-%E7%82%B9%E5%AF%B9%E9%9D%A2%E9%9A%A7%E9%81%93%E5%8D%8F%E8%AE%AE%E8%AE%BE%E8%AE%A1%E6%96%B9%E6%A1%88/" class="title">隧道进阶04-点对面隧道协议设计方案</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2023-10-04T02:08:59.000Z" itemprop="datePublished">2023-10-04</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/zh-CN/%E9%9A%A7%E9%81%93/%E9%9A%A7%E9%81%93%E8%BF%9B%E9%98%B603-%E5%A4%84%E7%90%86%E8%BF%9E%E6%8E%A5-%E6%9C%AC%E5%9C%B0%E6%94%BE%E8%A1%8C/" class="title">隧道进阶03-处理连接-本地放行+重写目的地址</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2023-10-03T02:08:59.000Z" itemprop="datePublished">2023-10-03</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/zh-CN/%E9%9A%A7%E9%81%93/%E9%9A%A7%E9%81%93%E8%BF%9B%E9%98%B602-%E8%99%9A%E6%8B%9F%E7%BD%91%E5%8D%A1-%3E%E7%94%A8%E6%88%B7%E6%80%81%E5%A4%84%E7%90%86%E6%95%B0%E6%8D%AE%E5%8C%85/" class="title">隧道进阶02-虚拟网卡-&gt;用户态处理数据包（选学）</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2023-10-02T02:08:59.000Z" itemprop="datePublished">2023-10-02</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/zh-CN/%E9%9A%A7%E9%81%93/%E9%9A%A7%E9%81%93%E8%BF%9B%E9%98%B601-%E7%82%B9%E5%AF%B9%E9%9D%A2%E9%9A%A7%E9%81%93%E7%9B%AE%E6%A0%87/" class="title">隧道进阶01-点对面隧道</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2023-09-17T02:08:59.000Z" itemprop="datePublished">2023-09-17</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/zh-CN/%E9%9A%A7%E9%81%93/%E9%9A%A7%E9%81%93%E5%9F%BA%E7%A1%8004-ip%E5%92%8C%E6%8E%A9%E7%A0%81/" class="title">隧道基础04-ip和掩码</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2023-09-16T02:08:59.000Z" itemprop="datePublished">2023-09-16</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
   
 
-<section class="pjax-area">
-  <div class="content-area post-content-area">
-    <div class=" left-area"></div>
-    <div class="main-area">
-      <div class="itp-m3-card post-cover">
-        <div class="itp-m3-card-cover">
-          <div class="itp-m3-cover-bg" style="
-          background-image: url(https://imgur.lzmun.com/picgo/after2022/6DD1FBC3-AD8A-4340-842D-6ACF531F8291_1_105_c.jpeg_itp);
-          background-size: cover;
-          background-position: center center;
-        ">
-            <div class="itp-m3-card-cover-layer ">
-              <div class="info-area pjax-area">
-                <div class="itp-m3-cover-avatar">
-                  <img src="https://imgur.lzmun.com/picgo/after2022/tripper2colorfull.png_avatar" class="nofancy">
-                </div>
-                <div class="itp-m3-cover-title" style="opacity: 1;">
-                  隧道进阶02-虚拟网卡-&gt;用户态处理数据包（选学）
-                </div>
-                <div class="itp-m3-cover-subtitle" style="opacity: 0.8;">
-                  
-2023-10-02
-<span> / </span>
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-隧道/隧道进阶02-虚拟网卡-&gt;用户态处理数据包" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      隧道进阶02-虚拟网卡-&gt;用户态处理数据包（选学）
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/zh-CN/%E9%9A%A7%E9%81%93/%E9%9A%A7%E9%81%93%E8%BF%9B%E9%98%B602-%E8%99%9A%E6%8B%9F%E7%BD%91%E5%8D%A1-%3E%E7%94%A8%E6%88%B7%E6%80%81%E5%A4%84%E7%90%86%E6%95%B0%E6%8D%AE%E5%8C%85/" class="article-date">
+	  <time datetime="2023-10-02T02:08:59.000Z" itemprop="datePublished">2023-10-02</time>
+	</a>
+</span>
+        
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/tags/%E9%9A%A7%E9%81%93/" rel="tag">隧道</a>
+  </span>
 
 
-<span> / </span>
-4k
-<style>
-  .category-link {
-    color: var(--main-black);
-  }
+        
 
-  @media print {
-    .itp-cover-subtitle a {
-      color: var(--main-black) !important;
-    }
-  }
-
-  @media screen {
-    .itp-cover-subtitle a {
-      color: #fff !important;
-    }
-  }
-</style>
-
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="article">
-          <h1 id="虚拟网卡-用户态处理数据包（选学）"><a href="#虚拟网卡-用户态处理数据包（选学）" class="headerlink" title="虚拟网卡-&gt;用户态处理数据包（选学）"></a>虚拟网卡-&gt;用户态处理数据包（选学）</h1><p><img src="/./assets/image-20231019110018175.png" alt="image-20231019110018175"></p>
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/zh-CN/%E9%9A%A7%E9%81%93/%E9%9A%A7%E9%81%93%E8%BF%9B%E9%98%B602-%E8%99%9A%E6%8B%9F%E7%BD%91%E5%8D%A1-%3E%E7%94%A8%E6%88%B7%E6%80%81%E5%A4%84%E7%90%86%E6%95%B0%E6%8D%AE%E5%8C%85/#comments" class="article-comment-link">评论</a></span>
+        
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h1 id="虚拟网卡-用户态处理数据包（选学）"><a href="#虚拟网卡-用户态处理数据包（选学）" class="headerlink" title="虚拟网卡-&gt;用户态处理数据包（选学）"></a>虚拟网卡-&gt;用户态处理数据包（选学）</h1><p><img src="/./assets/image-20231019110018175.png" alt="image-20231019110018175"></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[0 0 0 2 69 0 0 64 0 0 64 0 64 6 187 109 114 2 2 2 10 50 1 21 213 33 33 194 64 111 123 227 0 0 0 0 176 194 255 255 98 116 0 0 2 4 5 180 1 3 3 6 1 1 8 10 164 164 252 161 0 0 0 0]</span><br><span class="line">[0 0 0 2 69 0 0 52 0 0 64 0 64 6 187 121 114 2 2 2 10 50 1 21 213 33 33 194 64 111 123 228 42 158 136 94 128 16 8 10 200 227 0 0 1 1 8 10 164 164 252 161]</span><br><span class="line">TCP remote addr:114.2.2.2:54561 local addr:10.50.1.21:8642</span><br><span class="line">[0 0 0 2 69 0 2 115 0 0 64 0 64 6 185 58 114 2 2 2 10 50 1 21 213 33 33 194 64 111 123 228 42 158 136 94 128 24 8 10 155 230 0 0 1 1 8 10 164 164 252 161 232 239 54 26 22 3 1 2 58 1 0 2 54 3 3 213 0 12 255 249 102 134 132 101 124 128 48 20 100 86 18 88 207 47 241 137 186 227 39 60 14 194 87 94 193 139 42 32 200 37 156 47 156 44 208 214 206 4 89 171 36 97 9 167 208 95 200 238 249 231 36 15 101 174 211 104 192 209 0 86 0 32 26 26 19 1 19 2 19 3 192 43 192 47 192 44 192 48 204 169 204 168 192 19 192 20 0 156 0 157 0 47 0 53 1 0 1 205 154 154 0 0 0 16 0 14 0 12 2 104 50 8 104 116 116 112 47 49 46 49 0 27 0 3 2 0 2 68 105 0 5 0 3 2 104 50 0 43 0 7 6 202 202 3 4 3 3 0 5 0 5 1 0 0 0 0 254 13 1 26 0 0 1 0 1 129 0 32 170 238 163 38 173 14 155 27 89 147 241 9 126 118 6 128 223 123 232 113 153 203 158 208 106 37 176 86 33 167 155 86 0 240 118 64 149 34 5 159 87 207 0 9 219 225 22 183 179 221 31 168 252 38 58 77 147 155 233 254 62 110 39 111 202 12 58 99 171 174 96 43 181 128 226 214 247 158 227 211 185 149 14 135 115 29 165 91 208 208 106 250 60 142 202 218 6 86 18 98 198 31 180 155 229 23 229 229 102 111 33 116 85 19 251 174 68 170 253 5 86 6 58 2 98 116 252 177 33 210 90 237 103 68 75 46 1 10 128 125 36 123 253 242 21 112 250 92 242 68 104 129 23 107 159 148 25 61 148 109 165 0 73 116 221 23 82 180 75 172 237 185 155 35 1 184 96 230 12 121 247 1 151 244 122 171 219 108 106 192 24 165 230 243 242 203 77 189 65 122 5 64 151 52 24 138 96 99 103 243 234 174 59 122 163 83 60 118 182 61 157 132 88 234 160 209 33 218 151 17 150 151 196 35 151 114 236 30 34 101 88 225 148 23 173 213 251 120 124 200 35 233 157 200 134 179 123 168 24 170 48 234 8 209 86 53 233 37 124 66 205 169 56 248 255 1 0 1 0 0 11 0 2 1 0 0 45 0 2 1 1 0 35 0 0 0 18 0 0 0 10 0 10 0 8 26 26 0 29 0 23 0 24 0 23 0 0 0 51 0 43 0 41 26 26 0 1 0 0 29 0 32 22 53 48 118 65 49 40 66 186 23 119 101 227 113 7 136 143 154 165 41 180 43 45 226 116 206 187 9 178 181 183 73 0 13 0 18 0 16 4 3 8 4 4 1 5 3 8 5 5 1 8 6 6 1 74]</span><br><span class="line">[0 0 0 2 69 0 0 52 0 0 64 0 64 6 187 121 114 2 2 2 10 50 1 21 213 33 33 194 64 111 126 35 42 158 136 95 128 16 8 10 198 161 0 0 1 1 8 10 164 164 252 162]</span><br><span class="line">[0 0 0 2 69 0 0 52 0 0 64 0 64 6 187 121 114 2 2 2 10 50 1 21 213 33 33 194 64 111 126 35 42 158 136 95 128 17 8 10 198 160 0 0 1 1 8 10 164 164 252 162]</span><br><span class="line">[0 0 0 2 69 0 0 64 0 0 64 0 64 6 187 109 114 2 2 2 10 50 1 21 213 34 33 194 183 63 153 236 0 0 0 0 176 194 255 255 245 98 0 0 2 4 5 180 1 3 3 6 1 1 8 10 117 195 3 186 0 0 0 0]</span><br><span class="line">[0 0 0 2 69 0 0 52 0 0 64 0 64 6 187 121 114 2 2 2 10 50 1 21 213 34 33 194 183 63 153 237 253 141 223 237 128 16 8 10 49 82 0 0 1 1 8 10 117 195 3 186]</span><br><span class="line">[0 0 0 2 69 0 2 115 0 0 64 0 64 6 185 58 114 2 2 2 10 50 1 21 213 34 33 194 183 63 153 237 253 141 223 237 128 24 8 10 124 97 0 0 1 1 8 10 117 195 3 186 232 239 54 27 22 3 1 2 58 1 0 2 54 3 3 219 109 171 30 37 38 4 112 212 185 197 155 163 81 76 78 145 199 137 23 208 56 147 89 222 89 217 112 28 75 58 105 32 70 83 17 62 141 9 73 95 229 81 87 234 32 188 237 17 232 210 240 168 203 189 115 211 21 192 69 238 251 73 215 148 0 32 90 90 19 1 19 2 19 3 192 43 192 47 192 44 192 48 204 169 204 168 192 19 192 20 0 156 0 157 0 47 0 53 1 0 1 205 186 186 0 0 0 16 0 14 0 12 2 104 50 8 104 116 116 112 47 49 46 49 0 10 0 10 0 8 10 10 0 29 0 23 0 24 0 45 0 2 1 1 68 105 0 5 0 3 2 104 50 254 13 1 26 0 0 1 0 1 51 0 32 54 249 207 198 26 79 147 70 105 48 182 193 92 208 17 209 220 75 230 64 162 165 113 106 28 17 164 83 182 64 117 72 0 240 2 187 134 250 170 155 196 234 221 48 133 111 84 63 207 172 119 137 43 123 235 160 78 137 180 30 139 165 58 39 122 5 246 148 108 48 134 141 175 207 62 155 209 239 159 213 175 105 99 165 102 226 74 174 186 69 149 167 188 13 46 48 57 109 114 155 99 231 17 139 182 21 160 172 54 222 132 54 9 19 165 22 203 244 26 33 35 197 123 204 54 216 218 22 122 239 173 148 26 167 69 222 14 250 136 248 226 166 43 124 129 65 65 38 185 149 196 16 121 1 78 64 173 21 87 250 197 35 212 138 220 44 67 101 194 13 56 95 111 141 236 230 139 215 99 52 89 97 48 10 188 163 151 33 159 139 78 166 129 190 42 190 150 10 189 176 147 172 173 71 99 214 122 116 35 76 185 26 25 30 21 239 184 100 124 223 233 171 205 94 28 85 198 52 107 235 136 239 13 144 102 52 197 160 226 1 39 75 125 156 2 127 232 167 245 110 93 202 85 157 105 144 73 113 15 103 103 141 50 37 55 87 71 190 43 11 136 223 43 235 0 43 0 7 6 42 42 3 4 3 3 0 13 0 18 0 16 4 3 8 4 4 1 5 3 8 5 5 1 8 6 6 1 0 35 0 0 255 1 0 1 0 0 5 0 5 1 0 0 0 0 0 51 0 43 0 41 10 10 0 1 0 0 29 0 32 137 49 252 31 150 45 111 81 239 225 56 226 210 130 37 110 187 8 16 164 134 217 20 207 148 3 189 255 82 60 48 77 0 27 0 3 2 0 2 0 11 0 2 1 0 0 23 0 0 0 18 0 0 106]</span><br><span class="line">TCP remote addr:114.2.2.2:54562 local addr:10.50.1.21:8642</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p><img src="/./assets/image-20231019110103861.png" alt="image-20231019110103861"></p>
@@ -299,137 +356,144 @@
 <h1 id="思考题"><a href="#思考题" class="headerlink" title="思考题"></a>思考题</h1><h4 id="我们从用户态堆栈拿到的net-conn和我们普通建立的net-conn，有没有什么区别？"><a href="#我们从用户态堆栈拿到的net-conn和我们普通建立的net-conn，有没有什么区别？" class="headerlink" title="我们从用户态堆栈拿到的net.conn和我们普通建立的net.conn，有没有什么区别？"></a>我们从用户态堆栈拿到的net.conn和我们普通建立的net.conn，有没有什么区别？</h4><p>没区别，read和wirte都是给对端的socket发送数据</p>
 <h4 id="服务端同时监听多个端口，处理方法也一样，在客户端上和两个不通的端口建立socket，能不能把连接做成连接池？"><a href="#服务端同时监听多个端口，处理方法也一样，在客户端上和两个不通的端口建立socket，能不能把连接做成连接池？" class="headerlink" title="服务端同时监听多个端口，处理方法也一样，在客户端上和两个不通的端口建立socket，能不能把连接做成连接池？"></a>服务端同时监听多个端口，处理方法也一样，在客户端上和两个不通的端口建立socket，能不能把连接做成连接池？</h4><p>可以，go里面拿到的都是net.conn对象，都放入同一个连接池即可</p>
 
-        </div>
-        <div class="itp-m3-post-info_area">
-          <div class="info_area-category">
-            
-            
-            <div class="itp-m3-chip-normal-list">
-              <a class="tag-none-link" href="/tags/%E9%9A%A7%E9%81%93/" rel="tag">隧道</a>
-            </div>
-            
-          </div>
-          <div class="info_area-copyright">
-            <p>本文著作权归作者&nbspcbb boy&nbsp所有，转载或引用请联系作者获得授权。</p>
-          </div>
-        </div>
-      </div>
       
     </div>
-    <div class="right-area">
-      
-      
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://cbbboy.github.io/zh-CN/%E9%9A%A7%E9%81%93/%E9%9A%A7%E9%81%93%E8%BF%9B%E9%98%B602-%E8%99%9A%E6%8B%9F%E7%BD%91%E5%8D%A1-%3E%E7%94%A8%E6%88%B7%E6%80%81%E5%A4%84%E7%90%86%E6%95%B0%E6%8D%AE%E5%8C%85/" title="隧道进阶02-虚拟网卡-&gt;用户态处理数据包（选学）" target="_blank" rel="external">https://cbbboy.github.io/zh-CN/隧道/隧道进阶02-虚拟网卡->用户态处理数据包/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
 
-<div id="column-toc-m3" class="noprn column-toc-m3 itp-toc-m3-sidetop">
-  <ol class="itp-toc"><li class="itp-toc-item itp-toc-level-1"><a class="itp-toc-link" href="#%E8%99%9A%E6%8B%9F%E7%BD%91%E5%8D%A1-%E7%94%A8%E6%88%B7%E6%80%81%E5%A4%84%E7%90%86%E6%95%B0%E6%8D%AE%E5%8C%85%EF%BC%88%E9%80%89%E5%AD%A6%EF%BC%89"><span class="itp-toc-text">虚拟网卡-&gt;用户态处理数据包（选学）</span></a></li><li class="itp-toc-item itp-toc-level-1"><a class="itp-toc-link" href="#%E6%80%9D%E8%80%83%E9%A2%98"><span class="itp-toc-text">思考题</span></a></li></ol>
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://cbbboy.github.io/" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/favicon.png" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://cbbboy.github.io/" target="_blank"><span class="text-dark">cbbboy</span><small class="ml-1x">吃不饱</small></a></h3>
+        <div>个人简介。</div>
+      </div>
+    </figure>
+  </div>
 </div>
 
-      
+
     </div>
-  </div>
+  </article>
   
-  <!--
-<div class="mdui-dialog" id="shareDialogText" style="text-align: center;">
-  <div class="itp-share-card" id="shareInfo">
-    <div class="itp-share-cover" style="background: url('https://imgur.lzmun.com/picgo/after2022/6DD1FBC3-AD8A-4340-842D-6ACF531F8291_1_105_c.jpeg_itp');">
-      <div class="itp-share-layer">
-        <div class="itp-share-info">
-          <div class="itp-share-avatar">
-            <img src="https://imgur.lzmun.com/picgo/after2022/tripper2colorfull.png_avatar" class="nofancy">
-          </div>
-          <div class="itp-share-title">隧道进阶02-虚拟网卡->用户态处理数据包（选学）</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<div class="mdui-dialog" id="shareDialogImg" style="text-align: center;">
-  分享图已生成
-</div>-->
-</section>
-  <!-- Footer -->
-  <!-- Footer -->
-<footer class="itp-footer text-center">
-  <section class="footer-info">
-    自定义隧道 &copy; 2016 - 2023
     
-    <span> / </span>
-    14k
-    
-    
-    
-    <span> / Theme</span>
-    <a href="https://github.com/aiokr/hexo-theme-type" target="_blank">Type
-    </a>
+  <section id="comments">
+  	
   </section>
+
+
   
-    <a href="./" target="_blank">
-      <img width="80px" height="80px" style="padding-top: 12px; display: block; margin: 0 auto;" src="/./assets/icon.png" alt="footer logo"></a>
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
   
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/zh-CN/%E9%9A%A7%E9%81%93/%E9%9A%A7%E9%81%93%E8%BF%9B%E9%98%B603-%E5%A4%84%E7%90%86%E8%BF%9E%E6%8E%A5-%E6%9C%AC%E5%9C%B0%E6%94%BE%E8%A1%8C/" title="隧道进阶03-处理连接-本地放行+重写目的地址"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/zh-CN/%E9%9A%A7%E9%81%93/%E9%9A%A7%E9%81%93%E8%BF%9B%E9%98%B601-%E7%82%B9%E5%AF%B9%E9%9D%A2%E9%9A%A7%E9%81%93%E7%9B%AE%E6%A0%87/" title="隧道进阶01-点对面隧道"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    
+  </div>
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="/false" target="_blank" title="Link_tooltip" data-toggle=tooltip data-placement=top><i class="icon icon-link_tooltip"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
 </footer>
-  <!-- After footer scripts -->
-  <!-- fancybox -->
-
-<script src="/js/fancybox.umd.js" defer></script>
-<link rel="stylesheet" href="/css/fancybox.css" />
-
-<!-- mdui -->
-
-<!-- busuanzi -->
-
-<!-- highlightjs -->
-
-
-<script src="/js/highlight.min.js" async></script>
-
-<script>window.addEventListener('load', () => hljs.initHighlighting());</script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
 <script>
-  $("pre.code").each(function() {
-    $(this).html("<ol><li>" + $(this).html().replace(/\n/g, "\n</li><li>") + "\n</li></ol>");
-  });
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
 </script>
 
+<script src="/js/plugin.min.js"></script>
 
 
-<script src="/js/app.js"></script>
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
 
 
 
-<!--
-
-<script src="/js/canvas2image.js"></script>
 
 
-<script src="/js/shareimg.js"></script>
 
-<script src="https://html2canvas.hertzen.com/dist/html2canvas.js" defer></script>
--->
-<!--lazyload-->
+   
 
 
-<script src="/js/lazyload.js"></script>
 
 
-<!--PJAX-->
-<!--Pjax from https://github.com/MoOx/pjax-->
+   
 
-<!--<script src="https://cdn.jsdelivr.net/npm/pjax/pjax.js"></script>-->
-<!---->
-<!---->
-<!---->
-<!---->
-<!--首页键盘快捷键-->
 
-  <style>
-  :root {
-    --main-color: #71AFDD;
-    --sub-color: #6CD9CE;
-    --main-black: #222831;
-  }
-</style>
+
+
+
+
 </body>
-
-
-
-
 </html>

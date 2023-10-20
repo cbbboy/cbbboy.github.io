@@ -22,14 +22,14 @@
   <meta name="author" content="cbb boy">
   
   <!--Open Graph Title-->
-  <meta property="og:title" content="隧道进阶03-处理连接-本地放行+重写目的地址" />
+  <meta property="og:title" content="自定义隧道" />
   <!--Open Graph Description-->
   <meta property="og:description" content="自定义隧道" />
   <!--Open Graph Site Name-->
   <meta property="og:site_name" content="自定义隧道" />
   <!--Type page-->
   
-  <meta property="og:type" content="article" />
+  <meta property="og:type" content="website" />
   
   <!--Page Cover-->
   
@@ -38,7 +38,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <!-- Title -->
   
-  <title>隧道进阶03-处理连接-本地放行+重写目的地址 - 自定义隧道</title>
+  <title>归档：2023/9 - 自定义隧道</title>
   <!-- 添加到主屏后的标题（iOS 6 新增） -->
   <meta name="apple-mobile-web-app-title" content="自定义隧道">
   <!-- 是否启用 WebApp 全屏模式 -->
@@ -137,8 +137,6 @@
   
   
   
-  
-  
   <!-- Google Search Advanced
   https://developers.google.com/search/docs/advanced/structured-data/search-gallery
   -->
@@ -191,22 +189,33 @@
     
   </a>
   
-  <!--只在 **文章** 页面显示-->
-  <a class="itp-float-bar-item rounded" onclick="scrollto(comment)" title="comment">
+  <!--只在 **非文章** 页面显示-->
+  
+  <a class="itp-float-bar-item rounded" href="/archives/" title="归档">
     
-    <iconpark-icon class="navicon" name="comment"></iconpark-icon>
-    
-  </a>
-  <a class="itp-float-bar-item rounded" id="open_toc" onclick="OpenToc()" title="Table of contents">
-    
-    <iconpark-icon class="navicon" name="list"></iconpark-icon>
+    <iconpark-icon class="navicon" name="inbox"></iconpark-icon>
     
   </a>
-  <a class="itp-float-bar-item rounded" href="javascript:scroll(0,0)" title="to top">
+  
+  <a class="itp-float-bar-item rounded" href="/gallery/" title="影像">
     
-    <iconpark-icon class="navicon" name="top"></iconpark-icon>
+    <iconpark-icon class="navicon" name="gallery"></iconpark-icon>
     
   </a>
+  
+  <a class="itp-float-bar-item rounded" href="/about/" title="关于">
+    
+    <iconpark-icon class="navicon" name="person"></iconpark-icon>
+    
+  </a>
+  
+  <a class="itp-float-bar-item rounded" href="/links/" title="链接">
+    
+    <iconpark-icon class="navicon" name="people"></iconpark-icon>
+    
+  </a>
+  
+  
   
 
   <div class="itp-float-layer itp-toc-layer">
@@ -216,7 +225,7 @@
         </div>
       </a>
     </div>
-    <ol class="itp-layer-toc"><li class="itp-layer-toc-item itp-layer-toc-level-1"><a class="itp-layer-toc-link" href="#%E5%A4%84%E7%90%86%E8%BF%9E%E6%8E%A5-%E6%9C%AC%E5%9C%B0%E6%94%BE%E8%A1%8C"><span class="itp-layer-toc-text">处理连接-本地放行</span></a></li></ol>
+    
   </div>
   <div class="itp-float-layer-bg layer-bg-nodisplay" id="close_layer"></div>
 </div>
@@ -233,107 +242,124 @@
   
 
 <section class="pjax-area">
-  <div class="content-area post-content-area">
-    <div class=" left-area"></div>
-    <div class="main-area">
-      <div class="itp-m3-card post-cover">
-        <div class="itp-m3-card-cover">
-          <div class="itp-m3-cover-bg" style="
-          background-image: url(https://imgur.lzmun.com/picgo/after2022/6DD1FBC3-AD8A-4340-842D-6ACF531F8291_1_105_c.jpeg_itp);
-          background-size: cover;
-          background-position: center center;
-        ">
-            <div class="itp-m3-card-cover-layer ">
-              <div class="info-area pjax-area">
-                <div class="itp-m3-cover-avatar">
-                  <img src="https://imgur.lzmun.com/picgo/after2022/tripper2colorfull.png_avatar" class="nofancy">
-                </div>
-                <div class="itp-m3-cover-title" style="opacity: 1;">
-                  隧道进阶03-处理连接-本地放行+重写目的地址
-                </div>
-                <div class="itp-m3-cover-subtitle" style="opacity: 0.8;">
-                  
-2023-10-03
-<span> / </span>
-
-
-<span> / </span>
-18
-<style>
-  .category-link {
-    color: var(--main-black);
-  }
-
-  @media print {
-    .itp-cover-subtitle a {
-      color: var(--main-black) !important;
-    }
-  }
-
-  @media screen {
-    .itp-cover-subtitle a {
-      color: #fff !important;
-    }
-  }
-</style>
-
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="article">
-          <h1 id="处理连接-本地放行"><a href="#处理连接-本地放行" class="headerlink" title="处理连接-本地放行"></a>处理连接-本地放行</h1><p>基本流程可以理解为</p>
-<p><img src="/./assets/image-20231019200215613.png" alt="image-20231019200215613"></p>
-
-        </div>
-        <div class="itp-m3-post-info_area">
-          <div class="info_area-category">
-            
-            
-            <div class="itp-m3-chip-normal-list">
-              <a class="tag-none-link" href="/tags/%E9%9A%A7%E9%81%93/" rel="tag">隧道</a>
-            </div>
-            
-          </div>
-          <div class="info_area-copyright">
-            <p>本文著作权归作者&nbspcbb boy&nbsp所有，转载或引用请联系作者获得授权。</p>
-          </div>
-        </div>
+  <div class="content-area p-4 container max-w-[1280px]">
+    <div class="index-achieve-title title">2023/9</div>
+    <div class="text-2xl leading-10 py-2 col-span-1 md:col-span-3 text-tblack dark:text-white">分类</div>
+    <section class="itp-article-categories" style="list-style-type: none;">
+      <div class="itp-m3-chip-color-list">
+        
       </div>
+    </section>
+    <div class="text-2xl leading-10 py-2 col-span-1 md:col-span-3 text-tblack dark:text-white">标签</div>
+    <section class="itp-article-categories" style="list-style-type: none;">
+      <div class="itp-m3-chip-normal-list">
+        <a class="tag-none-link" href="/tags/%E9%9A%A7%E9%81%93/" rel="tag">隧道</a>
+      </div>
+    </section>
+    <!-- learn from https://hughsite.com/post/hexo-modify-theme.html -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+  
+  
+  
+  
+  <p class="text-2xl leading-10 py-2 col-span-1 md:col-span-2 lg:col-span-3 gap-1 text-tblack dark:text-white">2023</p>
+  
+  
+  <div class="h-auto px-3 py-1 hover:bg-gray-200 dark:hover:bg-gray-800 rounded transition-all">
+    <a href="/zh-CN/%E9%9A%A7%E9%81%93/%E9%9A%A7%E9%81%93%E8%BF%9B%E9%98%B601-%E7%82%B9%E5%AF%B9%E9%9D%A2%E9%9A%A7%E9%81%93%E7%9B%AE%E6%A0%87/" class="flex items-center">
       
-    </div>
-    <div class="right-area">
+        <iconpark-icon class="post-icon" name="bookmark"></iconpark-icon>
       
-      
-
-<div id="column-toc-m3" class="noprn column-toc-m3 itp-toc-m3-sidetop">
-  <ol class="itp-toc"><li class="itp-toc-item itp-toc-level-1"><a class="itp-toc-link" href="#%E5%A4%84%E7%90%86%E8%BF%9E%E6%8E%A5-%E6%9C%AC%E5%9C%B0%E6%94%BE%E8%A1%8C"><span class="itp-toc-text">处理连接-本地放行</span></a></li></ol>
-</div>
-
-      
-    </div>
+      <div class="px-3">
+        <div class="post-title text-tblack dark:text-white">隧道进阶01-点对面隧道</div>
+        <span class="text-sm leading-4 text-gray-400">2023-09-17</span>
+        
+      </div>
+    </a>
   </div>
   
-  <!--
-<div class="mdui-dialog" id="shareDialogText" style="text-align: center;">
-  <div class="itp-share-card" id="shareInfo">
-    <div class="itp-share-cover" style="background: url('https://imgur.lzmun.com/picgo/after2022/6DD1FBC3-AD8A-4340-842D-6ACF531F8291_1_105_c.jpeg_itp');">
-      <div class="itp-share-layer">
-        <div class="itp-share-info">
-          <div class="itp-share-avatar">
-            <img src="https://imgur.lzmun.com/picgo/after2022/tripper2colorfull.png_avatar" class="nofancy">
-          </div>
-          <div class="itp-share-title">隧道进阶03-处理连接-本地放行+重写目的地址</div>
-        </div>
+  
+  
+  
+  <div class="h-auto px-3 py-1 hover:bg-gray-200 dark:hover:bg-gray-800 rounded transition-all">
+    <a href="/zh-CN/%E9%9A%A7%E9%81%93/%E9%9A%A7%E9%81%93%E5%9F%BA%E7%A1%8004-ip%E5%92%8C%E6%8E%A9%E7%A0%81/" class="flex items-center">
+      
+        <iconpark-icon class="post-icon" name="bookmark"></iconpark-icon>
+      
+      <div class="px-3">
+        <div class="post-title text-tblack dark:text-white">隧道基础04-ip和掩码</div>
+        <span class="text-sm leading-4 text-gray-400">2023-09-16</span>
+        
       </div>
-    </div>
+    </a>
   </div>
+  
+  
+  
+  
+  <div class="h-auto px-3 py-1 hover:bg-gray-200 dark:hover:bg-gray-800 rounded transition-all">
+    <a href="/zh-CN/%E9%9A%A7%E9%81%93/%E9%9A%A7%E9%81%93%E5%9F%BA%E7%A1%8003-%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8D%8F%E8%AE%AE/" class="flex items-center">
+      
+        <iconpark-icon class="post-icon" name="bookmark"></iconpark-icon>
+      
+      <div class="px-3">
+        <div class="post-title text-tblack dark:text-white">隧道基础03-自定义协议</div>
+        <span class="text-sm leading-4 text-gray-400">2023-09-10</span>
+        
+      </div>
+    </a>
+  </div>
+  
+  
+  
+  
+  <div class="h-auto px-3 py-1 hover:bg-gray-200 dark:hover:bg-gray-800 rounded transition-all">
+    <a href="/zh-CN/%E9%9A%A7%E9%81%93/%E9%9A%A7%E9%81%93%E5%9F%BA%E7%A1%8001-%E6%A0%87%E5%87%86%E5%8D%8F%E8%AE%AE/" class="flex items-center">
+      
+        <iconpark-icon class="post-icon" name="bookmark"></iconpark-icon>
+      
+      <div class="px-3">
+        <div class="post-title text-tblack dark:text-white">隧道基础01-标准协议</div>
+        <span class="text-sm leading-4 text-gray-400">2023-09-07</span>
+        
+      </div>
+    </a>
+  </div>
+  
+  
+  
+  
+  <div class="h-auto px-3 py-1 hover:bg-gray-200 dark:hover:bg-gray-800 rounded transition-all">
+    <a href="/zh-CN/%E9%9A%A7%E9%81%93/%E9%9A%A7%E9%81%93%E5%9F%BA%E7%A1%8002-%E7%82%B9%E5%AF%B9%E7%82%B9%E9%9A%A7%E9%81%93/" class="flex items-center">
+      
+        <iconpark-icon class="post-icon" name="bookmark"></iconpark-icon>
+      
+      <div class="px-3">
+        <div class="post-title text-tblack dark:text-white">隧道基础02-点对点隧道</div>
+        <span class="text-sm leading-4 text-gray-400">2023-09-03</span>
+        
+      </div>
+    </a>
+  </div>
+  
+  
 </div>
-<div class="mdui-dialog" id="shareDialogImg" style="text-align: center;">
-  分享图已生成
-</div>-->
+<style>
+  .post-title {
+    display: -webkit-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+  }
+  .post-icon {
+    font-size: 1.2em;
+    color: #9DA3AE;
+  }
+</style>
+  </div>
 </section>
+<!--learn from https://github.com/fluid-dev/hexo-theme-fluid/blob/master/layout/archive.ejs-->
   <!-- Footer -->
   <!-- Footer -->
 <footer class="itp-footer text-center">

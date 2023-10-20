@@ -216,7 +216,7 @@
         </div>
       </a>
     </div>
-    <ol class="itp-layer-toc"><li class="itp-layer-toc-item itp-layer-toc-level-1"><a class="itp-layer-toc-link" href="#%E8%99%9A%E6%8B%9F%E7%BD%91%E5%8D%A1-%E7%94%A8%E6%88%B7%E6%80%81%E5%A4%84%E7%90%86%E6%95%B0%E6%8D%AE%E5%8C%85%EF%BC%88%E9%80%89%E5%AD%A6%EF%BC%89"><span class="itp-layer-toc-text">虚拟网卡-&gt;用户态处理数据包（选学）</span></a></li></ol>
+    <ol class="itp-layer-toc"><li class="itp-layer-toc-item itp-layer-toc-level-1"><a class="itp-layer-toc-link" href="#%E8%99%9A%E6%8B%9F%E7%BD%91%E5%8D%A1-%E7%94%A8%E6%88%B7%E6%80%81%E5%A4%84%E7%90%86%E6%95%B0%E6%8D%AE%E5%8C%85%EF%BC%88%E9%80%89%E5%AD%A6%EF%BC%89"><span class="itp-layer-toc-text">虚拟网卡-&gt;用户态处理数据包（选学）</span></a></li><li class="itp-layer-toc-item itp-layer-toc-level-1"><a class="itp-layer-toc-link" href="#%E6%80%9D%E8%80%83%E9%A2%98"><span class="itp-layer-toc-text">思考题</span></a></li></ol>
   </div>
   <div class="itp-float-layer-bg layer-bg-nodisplay" id="close_layer"></div>
 </div>
@@ -258,7 +258,7 @@
 
 
 <span> / </span>
-3.8k
+4k
 <style>
   .category-link {
     color: var(--main-black);
@@ -293,8 +293,11 @@
 
 <p><img src="/./assets/image-20231019110937382.png" alt="image-20231019110937382"></p>
 <p>后4位是虚拟网卡自己处理了，不是真实的数据</p>
-<h4 id="这个时候我们拿到的net-conn对象打印出来的数据"><a href="#这个时候我们拿到的net-conn对象打印出来的数据" class="headerlink" title="这个时候我们拿到的net.conn对象打印出来的数据"></a>这个时候我们拿到的net.conn对象打印出来的数据</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">TCP remote addr:114.2.2.2:54561 local addr:10.50.1.21:8642</span><br><span class="line"></span><br><span class="line">可以看到remote是utun80的虚拟地址，而local是真实的业务地址，和我们理解的反了过来</span><br></pre></td></tr></table></figure>
-
+<h4 id="这个时候我们拿到的net-conn对象打印出来的数据"><a href="#这个时候我们拿到的net-conn对象打印出来的数据" class="headerlink" title="这个时候我们拿到的net.conn对象打印出来的数据"></a>这个时候我们拿到的net.conn对象打印出来的数据</h4><p>TCP remote addr:114.2.2.2:54561 local addr:10.50.1.21:8642</p>
+<p>可以看到remote是utun80的虚拟地址，而local是真实的业务地址，和我们理解的反了过来</p>
+<p>但是没关系，这个对象就是本地和浏览器建立的socket，读写数据均和浏览器交互</p>
+<h1 id="思考题"><a href="#思考题" class="headerlink" title="思考题"></a>思考题</h1><h4 id="我们从用户态堆栈拿到的net-conn和我们普通建立的net-conn，有没有什么区别？"><a href="#我们从用户态堆栈拿到的net-conn和我们普通建立的net-conn，有没有什么区别？" class="headerlink" title="我们从用户态堆栈拿到的net.conn和我们普通建立的net.conn，有没有什么区别？"></a>我们从用户态堆栈拿到的net.conn和我们普通建立的net.conn，有没有什么区别？</h4><p>没区别，read和wirte都是给对端的socket发送数据</p>
+<h4 id="服务端同时监听多个端口，处理方法也一样，在客户端上和两个不通的端口建立socket，能不能把连接做成连接池？"><a href="#服务端同时监听多个端口，处理方法也一样，在客户端上和两个不通的端口建立socket，能不能把连接做成连接池？" class="headerlink" title="服务端同时监听多个端口，处理方法也一样，在客户端上和两个不通的端口建立socket，能不能把连接做成连接池？"></a>服务端同时监听多个端口，处理方法也一样，在客户端上和两个不通的端口建立socket，能不能把连接做成连接池？</h4><p>可以，go里面拿到的都是net.conn对象，都放入同一个连接池即可</p>
 
         </div>
         <div class="itp-m3-post-info_area">
@@ -318,7 +321,7 @@
       
 
 <div id="column-toc-m3" class="noprn column-toc-m3 itp-toc-m3-sidetop">
-  <ol class="itp-toc"><li class="itp-toc-item itp-toc-level-1"><a class="itp-toc-link" href="#%E8%99%9A%E6%8B%9F%E7%BD%91%E5%8D%A1-%E7%94%A8%E6%88%B7%E6%80%81%E5%A4%84%E7%90%86%E6%95%B0%E6%8D%AE%E5%8C%85%EF%BC%88%E9%80%89%E5%AD%A6%EF%BC%89"><span class="itp-toc-text">虚拟网卡-&gt;用户态处理数据包（选学）</span></a></li></ol>
+  <ol class="itp-toc"><li class="itp-toc-item itp-toc-level-1"><a class="itp-toc-link" href="#%E8%99%9A%E6%8B%9F%E7%BD%91%E5%8D%A1-%E7%94%A8%E6%88%B7%E6%80%81%E5%A4%84%E7%90%86%E6%95%B0%E6%8D%AE%E5%8C%85%EF%BC%88%E9%80%89%E5%AD%A6%EF%BC%89"><span class="itp-toc-text">虚拟网卡-&gt;用户态处理数据包（选学）</span></a></li><li class="itp-toc-item itp-toc-level-1"><a class="itp-toc-link" href="#%E6%80%9D%E8%80%83%E9%A2%98"><span class="itp-toc-text">思考题</span></a></li></ol>
 </div>
 
       
@@ -351,7 +354,7 @@
     自定义隧道 &copy; 2016 - 2023
     
     <span> / </span>
-    13k
+    14k
     
     
     

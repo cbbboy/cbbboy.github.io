@@ -16,6 +16,8 @@
   <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
   <meta http-equiv="window-target" content="_top" />
   
+  <meta name="google-site-verification" content="true" />
+  
   
   <title>隧道进阶05-点对面隧道协议设计方案 | cbbboy blog</title>
   <meta name="description" content="点对面隧道协议设计方案我们拿到net.conn了之后，我们即可将流量封装进入隧道 那我们遇到最大问题肯定是： 隧道协议的设计我们需要先考虑-&gt;隧道服务端需要什么？  目的ip 目的端口 协议 区分相同目的ip、相同端口、相同协议的不同连接 流量类型  解释1、2、3就不多讲了 4：是客户端可能会同时和10.50.1.21:8642建立多条tcp连接，那我们服务端也需要多条和真实业务的连接，那">
@@ -487,6 +489,17 @@ window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
 
 
 
+
+    <script defer type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'vb_h3vSsb5rOBFz20X7zdWi44X5_j1VHkz7dBEfe_Sc', 'auto');
+ga('send', 'pageview');
+
+</script>
 
 
 

@@ -16,6 +16,8 @@
   <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
   <meta http-equiv="window-target" content="_top" />
   
+  <meta name="google-site-verification" content="true" />
+  
   
   <title>隧道进阶01-点对面隧道 | cbbboy blog</title>
   <meta name="description" content="点对面隧道（学习本章之前强烈建议先学习隧道基础02-点对点隧道和隧道基础03-自定义协议） 点对面隧道基本流程图 那我们都需要做什么能够达到效果？ 启动虚拟网卡  启动包gvisor.dev&#x2F;gvisor中用户态处理底层数据包，将数据包转化成我们好操作的net.conn对象  拿到对象后根据对象中的 localAddr 和remoteAddr判断是否经过隧道（可能只是想要代理10.50.">
@@ -494,6 +496,17 @@ window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
 
 
 
+
+    <script defer type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'vb_h3vSsb5rOBFz20X7zdWi44X5_j1VHkz7dBEfe_Sc', 'auto');
+ga('send', 'pageview');
+
+</script>
 
 
 

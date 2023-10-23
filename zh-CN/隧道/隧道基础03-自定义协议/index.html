@@ -16,8 +16,6 @@
   <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
   <meta http-equiv="window-target" content="_top" />
   
-  <meta name="google-site-verification" content="true" />
-  
   
   <title>隧道基础03-自定义协议 | cbbboy blog</title>
   <meta name="description" content="自定义协议我们有http的协议，有tls协议 那我们能不能自己做一个自定义协议呢？当然可以 我们就先做一个简单的 使用前4个字节当作长度，后面传递其真实内容 x x x x hello! 解析的时候每次先读取4个字节长度后续判断内容长度 123456789101112131415161718192021222324252627282930313233343536&#x2F;&#x2F; protocol&#x2F;protoc">
@@ -513,17 +511,6 @@ window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
 
 
 
-
-    <script defer type="text/javascript">
-(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-ga('create', 'vb_h3vSsb5rOBFz20X7zdWi44X5_j1VHkz7dBEfe_Sc', 'auto');
-ga('send', 'pageview');
-
-</script>
 
 
 

@@ -18,16 +18,16 @@
   
   
   <title>隧道进阶03-处理连接-本地放行+重写目的地址（tcp） | cbbboy blog</title>
-  <meta name="description" content="处理连接-本地放行（tcp）基本流程可以理解为  123456789101112&#x2F;&#x2F; 在demo里面我们异步处理流量&#x2F;&#x2F; 在这里处理业务流量func process() &amp;#123;	for &amp;#123;		select &amp;#123;		case tcpConn :&#x3D; &lt;-_tcpQueue:			go tcpProcessRewrite(tcpConn)		case udpPacket :">
+  <meta name="description" content="处理连接-本地放行（tcp）进阶代码下载 基本流程可以理解为  123456789101112&#x2F;&#x2F; 在demo里面我们异步处理流量&#x2F;&#x2F; 在这里处理业务流量func process() &amp;#123;	for &amp;#123;		select &amp;#123;		case tcpConn :&#x3D; &lt;-_tcpQueue:			go tcpProcessRewrite(tcpConn)		case udpP">
 <meta property="og:type" content="article">
 <meta property="og:title" content="隧道进阶03-处理连接-本地放行+重写目的地址（tcp）">
 <meta property="og:url" content="https://cbbboy.github.io/zh-CN/%E9%9A%A7%E9%81%93/%E9%9A%A7%E9%81%93%E8%BF%9B%E9%98%B603-%E5%A4%84%E7%90%86%E8%BF%9E%E6%8E%A5-%E6%9C%AC%E5%9C%B0%E6%94%BE%E8%A1%8C+%E9%87%8D%E5%86%99%E7%9B%AE%E7%9A%84%E5%9C%B0%E5%9D%80%EF%BC%88tcp%EF%BC%89/index.html">
 <meta property="og:site_name" content="自定义隧道">
-<meta property="og:description" content="处理连接-本地放行（tcp）基本流程可以理解为  123456789101112&#x2F;&#x2F; 在demo里面我们异步处理流量&#x2F;&#x2F; 在这里处理业务流量func process() &amp;#123;	for &amp;#123;		select &amp;#123;		case tcpConn :&#x3D; &lt;-_tcpQueue:			go tcpProcessRewrite(tcpConn)		case udpPacket :">
+<meta property="og:description" content="处理连接-本地放行（tcp）进阶代码下载 基本流程可以理解为  123456789101112&#x2F;&#x2F; 在demo里面我们异步处理流量&#x2F;&#x2F; 在这里处理业务流量func process() &amp;#123;	for &amp;#123;		select &amp;#123;		case tcpConn :&#x3D; &lt;-_tcpQueue:			go tcpProcessRewrite(tcpConn)		case udpP">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://cbbboy.github.io/assets/image-20231023095416670.png">
 <meta property="article:published_time" content="2023-10-03T02:08:59.000Z">
-<meta property="article:modified_time" content="2023-10-30T08:31:49.066Z">
+<meta property="article:modified_time" content="2023-10-31T10:59:51.051Z">
 <meta property="article:author" content="cbb boy">
 <meta property="article:tag" content="隧道">
 <meta property="article:tag" content="加密隧道">
@@ -174,7 +174,7 @@
   <div class="widget">
     <h3 class="widget-title">分类</h3>
     <div class="widget-body">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9A%A7%E9%81%93%E5%9F%BA%E7%A1%80/">隧道基础</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9A%A7%E9%81%93%E8%BF%9B%E9%98%B6/">隧道进阶</a><span class="category-list-count">5</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9A%A7%E9%81%93%E5%9F%BA%E7%A1%80/">隧道基础</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9A%A7%E9%81%93%E8%BF%9B%E9%98%B6/">隧道进阶</a><span class="category-list-count">6</span></li></ul>
     </div>
   </div>
 
@@ -184,7 +184,7 @@
   <div class="widget">
     <h3 class="widget-title">标签</h3>
     <div class="widget-body">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/goland%E4%BD%BF%E7%94%A8/" rel="tag">goland使用</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sudo%E6%96%B9%E6%A1%88%E5%90%AF%E5%8A%A8/" rel="tag">sudo方案启动</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A0%E5%AF%86%E9%9A%A7%E9%81%93/" rel="tag">加密隧道</a><span class="tag-list-count">10</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%9C%E7%A8%8Bdebug/" rel="tag">远程debug</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%A7%E9%81%93/" rel="tag">隧道</a><span class="tag-list-count">10</span></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/goland%E4%BD%BF%E7%94%A8/" rel="tag">goland使用</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sudo%E6%96%B9%E6%A1%88%E5%90%AF%E5%8A%A8/" rel="tag">sudo方案启动</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A0%E5%AF%86%E9%9A%A7%E9%81%93/" rel="tag">加密隧道</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%9C%E7%A8%8Bdebug/" rel="tag">远程debug</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%A7%E9%81%93/" rel="tag">隧道</a><span class="tag-list-count">11</span></li></ul>
     </div>
   </div>
 
@@ -203,7 +203,7 @@
   <div class="widget">
     <h3 class="widget-title">归档</h3>
     <div class="widget-body">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/10/">十月 2023</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/09/">九月 2023</a><span class="archive-list-count">6</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/10/">十月 2023</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/09/">九月 2023</a><span class="archive-list-count">6</span></li></ul>
     </div>
   </div>
 
@@ -215,6 +215,21 @@
     <div class="widget-body">
       <ul class="recent-post-list list-unstyled no-thumbnail">
         
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/%E9%9A%A7%E9%81%93%E8%BF%9B%E9%98%B6/">隧道进阶</a>
+              </p>
+              <p class="item-title">
+                <a href="/zh-CN/%E9%9A%A7%E9%81%93/%E9%9A%A7%E9%81%93%E8%BF%9B%E9%98%B606-%E9%9A%A7%E9%81%93%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0/" class="title">隧道进阶06-隧道代码实现</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2023-10-28T02:08:59.000Z" itemprop="datePublished">2023-10-28</time>
+              </p>
+            </div>
+          </li>
+          
           <li>
             
             <div class="item-inner">
@@ -275,21 +290,6 @@
             </div>
           </li>
           
-          <li>
-            
-            <div class="item-inner">
-              <p class="item-category">
-                <a class="category-link" href="/categories/%E9%9A%A7%E9%81%93%E8%BF%9B%E9%98%B6/">隧道进阶</a>
-              </p>
-              <p class="item-title">
-                <a href="/zh-CN/%E9%9A%A7%E9%81%93/%E9%9A%A7%E9%81%93%E8%BF%9B%E9%98%B601-%E7%82%B9%E5%AF%B9%E9%9D%A2%E9%9A%A7%E9%81%93%E7%9B%AE%E6%A0%87/" class="title">隧道进阶01-点对面隧道</a>
-              </p>
-              <p class="item-date">
-                <time datetime="2023-09-17T02:08:59.000Z" itemprop="datePublished">2023-09-17</time>
-              </p>
-            </div>
-          </li>
-          
       </ul>
     </div>
   </div>
@@ -343,7 +343,8 @@
     </div>
     <div class="article-entry marked-body" itemprop="articleBody">
       
-        <h1 id="处理连接-本地放行（tcp）"><a href="#处理连接-本地放行（tcp）" class="headerlink" title="处理连接-本地放行（tcp）"></a>处理连接-本地放行（tcp）</h1><p>基本流程可以理解为</p>
+        <h1 id="处理连接-本地放行（tcp）"><a href="#处理连接-本地放行（tcp）" class="headerlink" title="处理连接-本地放行（tcp）"></a>处理连接-本地放行（tcp）</h1><p><a href="/assets/tunnel-study.zip">进阶代码下载</a></p>
+<p>基本流程可以理解为</p>
 <p><img src="/./assets/image-20231023095416670.png" alt="image-20231023095416670"></p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 在demo里面我们异步处理流量</span></span><br><span class="line"><span class="comment">// 在这里处理业务流量</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">process</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">for</span> &#123;</span><br><span class="line">		<span class="keyword">select</span> &#123;</span><br><span class="line">		<span class="keyword">case</span> tcpConn := &lt;-_tcpQueue:</span><br><span class="line">			<span class="keyword">go</span> tcpProcessRewrite(tcpConn)</span><br><span class="line">		<span class="keyword">case</span> udpPacket := &lt;-_udpQueue:</span><br><span class="line">			<span class="keyword">go</span> udpProcessRewrite(udpPacket)</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 

@@ -18,19 +18,22 @@
   
   
   <title>隧道进阶05-点对面隧道协议设计方案（重点） | cbbboy blog</title>
-  <meta name="description" content="点对面隧道协议设计方案（重点）我们拿到net.conn了之后，我们即可将流量封装进入隧道 那我们遇到最大问题肯定是： 隧道协议的设计我们需要先考虑-&gt;隧道服务端需要什么？  目的ip 目的端口 协议 区分相同目的ip、相同端口、相同协议的不同连接 流量类型  解释1、2、3就不多讲了 4：是客户端可能会同时和10.50.1.211:22建立多条tcp连接，那我们服务端也需要多条和真实业务的连">
+  <meta name="description" content="点对面隧道协议设计方案（重点）进阶代码下载 我们拿到net.conn了之后，我们即可将流量封装进入隧道 那我们遇到第一个问题是什么呢？肯定是隧道协议需要设计成什么，本章讲解我们自己设计的隧道协议 隧道协议的设计我们需要先考虑-&gt;隧道服务端需要什么？  目的ip 目的端口 协议 区分相同目的ip、相同端口、相同协议的不同连接 流量类型  解释1、2、3就不多讲了 4：是客户端可能会同时和10.">
 <meta property="og:type" content="article">
 <meta property="og:title" content="隧道进阶05-点对面隧道协议设计方案（重点）">
 <meta property="og:url" content="https://cbbboy.github.io/zh-CN/%E9%9A%A7%E9%81%93/%E9%9A%A7%E9%81%93%E8%BF%9B%E9%98%B605-%E7%82%B9%E5%AF%B9%E9%9D%A2%E9%9A%A7%E9%81%93%E5%8D%8F%E8%AE%AE%E8%AE%BE%E8%AE%A1%E6%96%B9%E6%A1%88/index.html">
 <meta property="og:site_name" content="自定义隧道">
-<meta property="og:description" content="点对面隧道协议设计方案（重点）我们拿到net.conn了之后，我们即可将流量封装进入隧道 那我们遇到最大问题肯定是： 隧道协议的设计我们需要先考虑-&gt;隧道服务端需要什么？  目的ip 目的端口 协议 区分相同目的ip、相同端口、相同协议的不同连接 流量类型  解释1、2、3就不多讲了 4：是客户端可能会同时和10.50.1.211:22建立多条tcp连接，那我们服务端也需要多条和真实业务的连">
+<meta property="og:description" content="点对面隧道协议设计方案（重点）进阶代码下载 我们拿到net.conn了之后，我们即可将流量封装进入隧道 那我们遇到第一个问题是什么呢？肯定是隧道协议需要设计成什么，本章讲解我们自己设计的隧道协议 隧道协议的设计我们需要先考虑-&gt;隧道服务端需要什么？  目的ip 目的端口 协议 区分相同目的ip、相同端口、相同协议的不同连接 流量类型  解释1、2、3就不多讲了 4：是客户端可能会同时和10.">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cbbboy.github.io/assets/CleanShot%202023-10-31%20at%2018.50.39@2x.png">
+<meta property="og:image" content="https://cbbboy.github.io/assets/CleanShot%202023-10-31%20at%2018.55.18@2x.png">
 <meta property="article:published_time" content="2023-10-04T02:08:59.000Z">
-<meta property="article:modified_time" content="2023-10-31T08:28:55.458Z">
+<meta property="article:modified_time" content="2023-10-31T11:02:49.819Z">
 <meta property="article:author" content="cbb boy">
 <meta property="article:tag" content="隧道">
 <meta property="article:tag" content="加密隧道">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cbbboy.github.io/assets/CleanShot%202023-10-31%20at%2018.50.39@2x.png">
   <!-- Canonical links -->
   <link rel="canonical" href="https://cbbboy.github.io/zh-CN/%E9%9A%A7%E9%81%93/%E9%9A%A7%E9%81%93%E8%BF%9B%E9%98%B605-%E7%82%B9%E5%AF%B9%E9%9D%A2%E9%9A%A7%E9%81%93%E5%8D%8F%E8%AE%AE%E8%AE%BE%E8%AE%A1%E6%96%B9%E6%A1%88/index.html">
   
@@ -172,7 +175,7 @@
   <div class="widget">
     <h3 class="widget-title">分类</h3>
     <div class="widget-body">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9A%A7%E9%81%93%E5%9F%BA%E7%A1%80/">隧道基础</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9A%A7%E9%81%93%E8%BF%9B%E9%98%B6/">隧道进阶</a><span class="category-list-count">5</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9A%A7%E9%81%93%E5%9F%BA%E7%A1%80/">隧道基础</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9A%A7%E9%81%93%E8%BF%9B%E9%98%B6/">隧道进阶</a><span class="category-list-count">6</span></li></ul>
     </div>
   </div>
 
@@ -182,7 +185,7 @@
   <div class="widget">
     <h3 class="widget-title">标签</h3>
     <div class="widget-body">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/goland%E4%BD%BF%E7%94%A8/" rel="tag">goland使用</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sudo%E6%96%B9%E6%A1%88%E5%90%AF%E5%8A%A8/" rel="tag">sudo方案启动</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A0%E5%AF%86%E9%9A%A7%E9%81%93/" rel="tag">加密隧道</a><span class="tag-list-count">10</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%9C%E7%A8%8Bdebug/" rel="tag">远程debug</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%A7%E9%81%93/" rel="tag">隧道</a><span class="tag-list-count">10</span></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/goland%E4%BD%BF%E7%94%A8/" rel="tag">goland使用</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sudo%E6%96%B9%E6%A1%88%E5%90%AF%E5%8A%A8/" rel="tag">sudo方案启动</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A0%E5%AF%86%E9%9A%A7%E9%81%93/" rel="tag">加密隧道</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%9C%E7%A8%8Bdebug/" rel="tag">远程debug</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%A7%E9%81%93/" rel="tag">隧道</a><span class="tag-list-count">11</span></li></ul>
     </div>
   </div>
 
@@ -201,7 +204,7 @@
   <div class="widget">
     <h3 class="widget-title">归档</h3>
     <div class="widget-body">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/10/">十月 2023</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/09/">九月 2023</a><span class="archive-list-count">6</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/10/">十月 2023</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/09/">九月 2023</a><span class="archive-list-count">6</span></li></ul>
     </div>
   </div>
 
@@ -213,6 +216,21 @@
     <div class="widget-body">
       <ul class="recent-post-list list-unstyled no-thumbnail">
         
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/%E9%9A%A7%E9%81%93%E8%BF%9B%E9%98%B6/">隧道进阶</a>
+              </p>
+              <p class="item-title">
+                <a href="/zh-CN/%E9%9A%A7%E9%81%93/%E9%9A%A7%E9%81%93%E8%BF%9B%E9%98%B606-%E9%9A%A7%E9%81%93%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0/" class="title">隧道进阶06-隧道代码实现</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2023-10-28T02:08:59.000Z" itemprop="datePublished">2023-10-28</time>
+              </p>
+            </div>
+          </li>
+          
           <li>
             
             <div class="item-inner">
@@ -273,21 +291,6 @@
             </div>
           </li>
           
-          <li>
-            
-            <div class="item-inner">
-              <p class="item-category">
-                <a class="category-link" href="/categories/%E9%9A%A7%E9%81%93%E8%BF%9B%E9%98%B6/">隧道进阶</a>
-              </p>
-              <p class="item-title">
-                <a href="/zh-CN/%E9%9A%A7%E9%81%93/%E9%9A%A7%E9%81%93%E8%BF%9B%E9%98%B601-%E7%82%B9%E5%AF%B9%E9%9D%A2%E9%9A%A7%E9%81%93%E7%9B%AE%E6%A0%87/" class="title">隧道进阶01-点对面隧道</a>
-              </p>
-              <p class="item-date">
-                <time datetime="2023-09-17T02:08:59.000Z" itemprop="datePublished">2023-09-17</time>
-              </p>
-            </div>
-          </li>
-          
       </ul>
     </div>
   </div>
@@ -341,8 +344,9 @@
     </div>
     <div class="article-entry marked-body" itemprop="articleBody">
       
-        <h1 id="点对面隧道协议设计方案（重点）"><a href="#点对面隧道协议设计方案（重点）" class="headerlink" title="点对面隧道协议设计方案（重点）"></a>点对面隧道协议设计方案（重点）</h1><p>我们拿到net.conn了之后，我们即可将流量封装进入隧道</p>
-<p>那我们遇到最大问题肯定是：</p>
+        <h1 id="点对面隧道协议设计方案（重点）"><a href="#点对面隧道协议设计方案（重点）" class="headerlink" title="点对面隧道协议设计方案（重点）"></a>点对面隧道协议设计方案（重点）</h1><p><a href="/assets/tunnel-study.zip">进阶代码下载</a></p>
+<p>我们拿到net.conn了之后，我们即可将流量封装进入隧道</p>
+<h5 id="那我们遇到第一个问题是什么呢？"><a href="#那我们遇到第一个问题是什么呢？" class="headerlink" title="那我们遇到第一个问题是什么呢？"></a>那我们遇到第一个问题是什么呢？</h5><p>肯定是隧道协议需要设计成什么，本章讲解我们自己设计的隧道协议</p>
 <h2 id="隧道协议的设计"><a href="#隧道协议的设计" class="headerlink" title="隧道协议的设计"></a>隧道协议的设计</h2><p>我们需要先考虑-&gt;隧道服务端需要什么？</p>
 <ol>
 <li>目的ip</li>
@@ -354,7 +358,15 @@
 <h2 id="解释"><a href="#解释" class="headerlink" title="解释"></a>解释</h2><p>1、2、3就不多讲了</p>
 <p>4：是客户端可能会同时和10.50.1.211:22建立多条tcp连接，那我们服务端也需要多条和真实业务的连接，那我们只有目的ip，目的端口，协议，无法区分多个tcp连接，那我们就还需要一个唯一id进行区分</p>
 <p>5：为了区分比如tcp新建立连接、tcp断开、tcp数据传递、服务端和客户端双向通信发送的信息、传递自己的令牌等。我们也可以把协议和流量类型合并为同一个字段 </p>
-<h2 id="方案01"><a href="#方案01" class="headerlink" title="方案01"></a>方案01</h2><h2 id="方案02"><a href="#方案02" class="headerlink" title="方案02"></a>方案02</h2>
+<h2 id="方案01"><a href="#方案01" class="headerlink" title="方案01"></a>方案01</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0 0 0 0 13 10.50.1.18:22-1.1.1.1:12345 sign xxxxxxxxxx </span><br></pre></td></tr></table></figure>
+
+<p>解析</p>
+<p><img src="/./assets/CleanShot%202023-10-31%20at%2018.50.39@2x.png" alt="CleanShot 2023-10-31 at 18.50.39@2x"></p>
+<h2 id="方案02"><a href="#方案02" class="headerlink" title="方案02"></a>方案02</h2><p>例子里面包括的是这样的</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0 0 0 0 sign 13 10.50.1.18:22-1.1.1.1:12345 xxxxxxxxxx </span><br></pre></td></tr></table></figure>
+
+<p><img src="/./assets/CleanShot%202023-10-31%20at%2018.55.18@2x.png" alt="CleanShot 2023-10-31 at 18.55.18@2x"></p>
+
       
     </div>
     <div class="article-footer">
@@ -406,6 +418,10 @@
   <div class="bar-inner">
   
   <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/zh-CN/%E9%9A%A7%E9%81%93/%E9%9A%A7%E9%81%93%E8%BF%9B%E9%98%B606-%E9%9A%A7%E9%81%93%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0/" title="隧道进阶06-隧道代码实现"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
     
     
     <li class="next">

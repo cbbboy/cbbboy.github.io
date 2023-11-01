@@ -6,7 +6,7 @@
   <link href="https://cbbboy.github.io/atom.xml" rel="self"/>
   
   <link href="https://cbbboy.github.io/"/>
-  <updated>2023-10-31T11:05:30.998Z</updated>
+  <updated>2023-11-01T00:47:41.835Z</updated>
   <id>https://cbbboy.github.io/</id>
   
   <author>
@@ -21,9 +21,9 @@
     <link href="https://cbbboy.github.io/zh-CN/%E9%9A%A7%E9%81%93/%E9%9A%A7%E9%81%93%E8%BF%9B%E9%98%B606-%E9%9A%A7%E9%81%93%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0/"/>
     <id>https://cbbboy.github.io/zh-CN/%E9%9A%A7%E9%81%93/%E9%9A%A7%E9%81%93%E8%BF%9B%E9%98%B606-%E9%9A%A7%E9%81%93%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0/</id>
     <published>2023-10-28T02:08:59.000Z</published>
-    <updated>2023-10-31T11:05:30.998Z</updated>
+    <updated>2023-11-01T00:47:41.835Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="隧道代码实现（重点）"><a href="#隧道代码实现（重点）" class="headerlink" title="隧道代码实现（重点）"></a>隧道代码实现（重点）</h1><p><a href="/assets/tunnel-study.zip">进阶代码下载</a></p>]]></content>
+    <content type="html"><![CDATA[<h1 id="隧道代码实现（重点）"><a href="#隧道代码实现（重点）" class="headerlink" title="隧道代码实现（重点）"></a>隧道代码实现（重点）</h1><p><a href="/assets/tunnel-study.zip">进阶代码下载</a></p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CGO_ENABLED=0 GOOS=linux GOARCH=amd64 </span><br></pre></td></tr></table></figure>]]></content>
     
     
       
@@ -47,9 +47,9 @@
     <link href="https://cbbboy.github.io/zh-CN/%E9%9A%A7%E9%81%93/%E9%9A%A7%E9%81%93%E8%BF%9B%E9%98%B605-%E7%82%B9%E5%AF%B9%E9%9D%A2%E9%9A%A7%E9%81%93%E5%8D%8F%E8%AE%AE%E8%AE%BE%E8%AE%A1%E6%96%B9%E6%A1%88/"/>
     <id>https://cbbboy.github.io/zh-CN/%E9%9A%A7%E9%81%93/%E9%9A%A7%E9%81%93%E8%BF%9B%E9%98%B605-%E7%82%B9%E5%AF%B9%E9%9D%A2%E9%9A%A7%E9%81%93%E5%8D%8F%E8%AE%AE%E8%AE%BE%E8%AE%A1%E6%96%B9%E6%A1%88/</id>
     <published>2023-10-04T02:08:59.000Z</published>
-    <updated>2023-10-31T11:02:49.819Z</updated>
+    <updated>2023-11-01T00:57:05.832Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="点对面隧道协议设计方案（重点）"><a href="#点对面隧道协议设计方案（重点）" class="headerlink" title="点对面隧道协议设计方案（重点）"></a>点对面隧道协议设计方案（重点）</h1><p><a href="/assets/tunnel-study.zip">进阶代码下载</a></p><p>我们拿到net.conn了之后，我们即可将流量封装进入隧道</p><h5 id="那我们遇到第一个问题是什么呢？"><a href="#那我们遇到第一个问题是什么呢？" class="headerlink" title="那我们遇到第一个问题是什么呢？"></a>那我们遇到第一个问题是什么呢？</h5><p>肯定是隧道协议需要设计成什么，本章讲解我们自己设计的隧道协议</p><h2 id="隧道协议的设计"><a href="#隧道协议的设计" class="headerlink" title="隧道协议的设计"></a>隧道协议的设计</h2><p>我们需要先考虑-&gt;隧道服务端需要什么？</p><ol><li>目的ip</li><li>目的端口</li><li>协议</li><li>区分相同目的ip、相同端口、相同协议的不同连接</li><li>流量类型</li></ol><h2 id="解释"><a href="#解释" class="headerlink" title="解释"></a>解释</h2><p>1、2、3就不多讲了</p><p>4：是客户端可能会同时和10.50.1.211:22建立多条tcp连接，那我们服务端也需要多条和真实业务的连接，那我们只有目的ip，目的端口，协议，无法区分多个tcp连接，那我们就还需要一个唯一id进行区分</p><p>5：为了区分比如tcp新建立连接、tcp断开、tcp数据传递、服务端和客户端双向通信发送的信息、传递自己的令牌等。我们也可以把协议和流量类型合并为同一个字段 </p><h2 id="方案01"><a href="#方案01" class="headerlink" title="方案01"></a>方案01</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0 0 0 0 13 10.50.1.18:22-1.1.1.1:12345 sign xxxxxxxxxx </span><br></pre></td></tr></table></figure><p>解析</p><p><img src="/./assets/CleanShot%202023-10-31%20at%2018.50.39@2x.png" alt="CleanShot 2023-10-31 at 18.50.39@2x"></p><h2 id="方案02"><a href="#方案02" class="headerlink" title="方案02"></a>方案02</h2><p>例子里面包括的是这样的</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0 0 0 0 sign 13 10.50.1.18:22-1.1.1.1:12345 xxxxxxxxxx </span><br></pre></td></tr></table></figure><p><img src="/./assets/CleanShot%202023-10-31%20at%2018.55.18@2x.png" alt="CleanShot 2023-10-31 at 18.55.18@2x"></p>]]></content>
+    <content type="html"><![CDATA[<h1 id="点对面隧道协议设计方案（重点）"><a href="#点对面隧道协议设计方案（重点）" class="headerlink" title="点对面隧道协议设计方案（重点）"></a>点对面隧道协议设计方案（重点）</h1><p><a href="/assets/tunnel-study.zip">进阶代码下载</a></p><p>我们拿到net.conn了之后，我们即可将流量封装进入隧道</p><h5 id="那我们遇到第一个问题是什么呢？"><a href="#那我们遇到第一个问题是什么呢？" class="headerlink" title="那我们遇到第一个问题是什么呢？"></a>那我们遇到第一个问题是什么呢？</h5><p>肯定是隧道协议需要设计成什么，本章讲解我们自己设计的隧道协议</p><h2 id="隧道协议的设计"><a href="#隧道协议的设计" class="headerlink" title="隧道协议的设计"></a>隧道协议的设计</h2><p>我们需要先考虑-&gt;隧道服务端需要什么？</p><ol><li>目的ip</li><li>目的端口</li><li>协议</li><li>区分相同目的ip、相同端口、相同协议的不同连接</li><li>流量类型</li></ol><h2 id="解释"><a href="#解释" class="headerlink" title="解释"></a>解释</h2><p>1、2、3就不多讲了</p><p>4：是客户端可能会同时和10.50.1.211:22建立多条tcp连接，那我们服务端也需要多条和真实业务的连接，那我们只有目的ip，目的端口，协议，无法区分多个tcp连接，那我们就还需要一个唯一id进行区分</p><p>5：为了区分比如tcp新建立连接、tcp断开、tcp数据传递、服务端和客户端双向通信发送的信息、传递自己的令牌等。我们也可以把协议和流量类型合并为同一个字段 </p><h2 id="普通方案"><a href="#普通方案" class="headerlink" title="普通方案"></a>普通方案</h2><p>普通方案：每当客户端有流量过来的时候，都和服务端建立一条tcp连接用于发送数据</p><p>普通方案可以在刚和服务端建立好后，使用固定长度的内容传递自己的目的地址，用户信息等内容，服务端根据内容建立tcp后，然后再调用io.copy方法即可实现代理</p><p>优点：</p><ol><li>没有额外计算</li><li>数据包不会变大</li></ol><p>缺点：</p><ol><li>每次都要和服务端的隧道建立连接和tls握手</li><li>服务端tcp连接数量明显较多</li></ol><h2 id="多路复用方案"><a href="#多路复用方案" class="headerlink" title="多路复用方案"></a>多路复用方案</h2><p>多路复用方案理论是：用一条或多条tcp承载vpn流量，而不是在使用的时候去建立隧道转发流量</p><p>优点：</p><ol><li>可以省去和服务端建立tcp连接和tls握手时间</li><li>服务端tcp连接数量明显下降</li></ol><p>缺点：</p><ol><li>自己vpn协议头部会变大</li><li>服务端会有额外判断策略</li></ol><h2 id="方案01"><a href="#方案01" class="headerlink" title="方案01"></a>方案01</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0 0 0 0 13 10.50.1.18:22-1.1.1.1:12345 sign xxxxxxxxxx </span><br></pre></td></tr></table></figure><p>解析</p><p><img src="/./assets/CleanShot%202023-10-31%20at%2018.50.39@2x.png" alt="CleanShot 2023-10-31 at 18.50.39@2x"></p><h2 id="方案02"><a href="#方案02" class="headerlink" title="方案02"></a>方案02</h2><p>例子里面包括的是这样的</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0 0 0 0 sign 13 10.50.1.18:22-1.1.1.1:12345 xxxxxxxxxx </span><br></pre></td></tr></table></figure><p><img src="/./assets/CleanShot%202023-10-31%20at%2018.55.18@2x.png" alt="CleanShot 2023-10-31 at 18.55.18@2x"></p>]]></content>
     
     
       

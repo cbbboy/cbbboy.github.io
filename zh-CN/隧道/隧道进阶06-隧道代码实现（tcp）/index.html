@@ -17,11 +17,11 @@
   <meta http-equiv="window-target" content="_top" />
   
   
-  <title>隧道进阶06-隧道代码实现 | cbbboy blog</title>
+  <title>隧道进阶06-隧道代码实现（tcp） | cbbboy blog</title>
   <meta name="description" content="隧道代码实现（重点）进阶代码下载 对象的创建先看一下我们的对象，这个即是我的对象，里面包含内容 主连接 子连接 思路服务端服务端我们接受到tcp连接后，我们组装一个自己的对象后直接异步处理即可 我们从主连接里面获取到内容后如何处理 StartMainProcess() 通过sign找到对应的处理方法 process 中的tcp新建立连接的处理方法 process 中的tcp 断开连接的处理方法找到">
 <meta property="og:type" content="article">
-<meta property="og:title" content="隧道进阶06-隧道代码实现">
-<meta property="og:url" content="https://cbbboy.github.io/zh-CN/%E9%9A%A7%E9%81%93/%E9%9A%A7%E9%81%93%E8%BF%9B%E9%98%B606-%E9%9A%A7%E9%81%93%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0/index.html">
+<meta property="og:title" content="隧道进阶06-隧道代码实现（tcp）">
+<meta property="og:url" content="https://cbbboy.github.io/zh-CN/%E9%9A%A7%E9%81%93/%E9%9A%A7%E9%81%93%E8%BF%9B%E9%98%B606-%E9%9A%A7%E9%81%93%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0%EF%BC%88tcp%EF%BC%89/index.html">
 <meta property="og:site_name" content="自定义隧道">
 <meta property="og:description" content="隧道代码实现（重点）进阶代码下载 对象的创建先看一下我们的对象，这个即是我的对象，里面包含内容 主连接 子连接 思路服务端服务端我们接受到tcp连接后，我们组装一个自己的对象后直接异步处理即可 我们从主连接里面获取到内容后如何处理 StartMainProcess() 通过sign找到对应的处理方法 process 中的tcp新建立连接的处理方法 process 中的tcp 断开连接的处理方法找到">
 <meta property="og:locale" content="zh_CN">
@@ -39,14 +39,14 @@
 <meta property="og:image" content="https://cbbboy.github.io/assets/CleanShot%202023-11-02%20at%2017.42.30@2x.png">
 <meta property="og:image" content="https://cbbboy.github.io/assets/CleanShot%202023-11-02%20at%2015.37.51.png">
 <meta property="article:published_time" content="2023-10-28T02:08:59.000Z">
-<meta property="article:modified_time" content="2023-11-02T10:02:31.481Z">
+<meta property="article:modified_time" content="2023-11-02T10:08:06.093Z">
 <meta property="article:author" content="cbb boy">
 <meta property="article:tag" content="隧道">
 <meta property="article:tag" content="加密隧道">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://cbbboy.github.io/assets/CleanShot%202023-11-02%20at%2015.43.03.png">
   <!-- Canonical links -->
-  <link rel="canonical" href="https://cbbboy.github.io/zh-CN/%E9%9A%A7%E9%81%93/%E9%9A%A7%E9%81%93%E8%BF%9B%E9%98%B606-%E9%9A%A7%E9%81%93%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0/index.html">
+  <link rel="canonical" href="https://cbbboy.github.io/zh-CN/%E9%9A%A7%E9%81%93/%E9%9A%A7%E9%81%93%E8%BF%9B%E9%98%B606-%E9%9A%A7%E9%81%93%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0%EF%BC%88tcp%EF%BC%89/index.html">
   
     <link rel="alternate" href="/atom.xml" title="自定义隧道" type="application/atom+xml">
   
@@ -234,7 +234,7 @@
                 <a class="category-link" href="/categories/%E9%9A%A7%E9%81%93%E8%BF%9B%E9%98%B6/">隧道进阶</a>
               </p>
               <p class="item-title">
-                <a href="/zh-CN/%E9%9A%A7%E9%81%93/%E9%9A%A7%E9%81%93%E8%BF%9B%E9%98%B606-%E9%9A%A7%E9%81%93%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0/" class="title">隧道进阶06-隧道代码实现</a>
+                <a href="/zh-CN/%E9%9A%A7%E9%81%93/%E9%9A%A7%E9%81%93%E8%BF%9B%E9%98%B606-%E9%9A%A7%E9%81%93%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0%EF%BC%88tcp%EF%BC%89/" class="title">隧道进阶06-隧道代码实现（tcp）</a>
               </p>
               <p class="item-date">
                 <time datetime="2023-10-28T02:08:59.000Z" itemprop="datePublished">2023-10-28</time>
@@ -315,14 +315,14 @@
   
 <main class="main" role="main">
   <div class="content">
-  <article id="post-隧道/隧道进阶06-隧道代码实现" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+  <article id="post-隧道/隧道进阶06-隧道代码实现（tcp）" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
     
     <div class="article-header">
       
         
   
     <h1 class="article-title" itemprop="name">
-      隧道进阶06-隧道代码实现
+      隧道进阶06-隧道代码实现（tcp）
     </h1>
   
 
@@ -330,7 +330,7 @@
       <div class="article-meta">
         <span class="article-date">
     <i class="icon icon-calendar-check"></i>
-	<a href="/zh-CN/%E9%9A%A7%E9%81%93/%E9%9A%A7%E9%81%93%E8%BF%9B%E9%98%B606-%E9%9A%A7%E9%81%93%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0/" class="article-date">
+	<a href="/zh-CN/%E9%9A%A7%E9%81%93/%E9%9A%A7%E9%81%93%E8%BF%9B%E9%98%B606-%E9%9A%A7%E9%81%93%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0%EF%BC%88tcp%EF%BC%89/" class="article-date">
 	  <time datetime="2023-10-28T02:08:59.000Z" itemprop="datePublished">2023-10-28</time>
 	</a>
 </span>
@@ -349,7 +349,7 @@
 
         
 
-        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/zh-CN/%E9%9A%A7%E9%81%93/%E9%9A%A7%E9%81%93%E8%BF%9B%E9%98%B606-%E9%9A%A7%E9%81%93%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0/#comments" class="article-comment-link">评论</a></span>
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/zh-CN/%E9%9A%A7%E9%81%93/%E9%9A%A7%E9%81%93%E8%BF%9B%E9%98%B606-%E9%9A%A7%E9%81%93%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0%EF%BC%88tcp%EF%BC%89/#comments" class="article-comment-link">评论</a></span>
         
       </div>
     </div>
@@ -381,7 +381,7 @@
     
     <li class="post-copyright-link hidden-xs">
       <strong>本文链接：</strong>
-      <a href="https://cbbboy.github.io/zh-CN/%E9%9A%A7%E9%81%93/%E9%9A%A7%E9%81%93%E8%BF%9B%E9%98%B606-%E9%9A%A7%E9%81%93%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0/" title="隧道进阶06-隧道代码实现" target="_blank" rel="external">https://cbbboy.github.io/zh-CN/隧道/隧道进阶06-隧道代码实现/</a>
+      <a href="https://cbbboy.github.io/zh-CN/%E9%9A%A7%E9%81%93/%E9%9A%A7%E9%81%93%E8%BF%9B%E9%98%B606-%E9%9A%A7%E9%81%93%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0%EF%BC%88tcp%EF%BC%89/" title="隧道进阶06-隧道代码实现（tcp）" target="_blank" rel="external">https://cbbboy.github.io/zh-CN/隧道/隧道进阶06-隧道代码实现（tcp）/</a>
     </li>
     
     <li class="post-copyright-license">
